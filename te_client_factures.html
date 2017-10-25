@@ -3,6 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Client</title>
+		<link rel="stylesheet" href="include/css/bootstrap.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="include/css/material.css" type="text/css" charset="utf-8">
 
@@ -17,9 +18,9 @@
 
 		<div id="my_form"></div>
 
-		<button class="button primary col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
-		<button class="button success col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
-		<button class="button warning col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
+		<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
+		<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
+		<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
 
 		<div id="select_page"></div>
 		<div id="grid"></div>
@@ -57,7 +58,7 @@
                 view:"menu",
                 autowidth:true,
                 data:[
-                    { id:"1",value:"Clients", submenu:[ "FB", "G+", "TW" ]},
+                    { id:"1",value:"TEXTMA"},
                     { id:"2",value:"Accueil", submenu:[ "FB", "G+", "TW" ]},
                     { id:"3",value:"Clients", submenu:[ "FB", "G+", "TW" ]},
                     { id:"4",value:"Factures", width: 500,
