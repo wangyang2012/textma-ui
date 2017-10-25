@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="//cdn.webix.com/site/webix.css?v=5.0.1" type="text/css"   charset="utf-8">
+		<script src="//cdn.webix.com/site/webix.js?v=5.0.1" type="text/javascript" charset="utf-8"></script>
+		<style>
+			#areaA, #areaB{
+				margin: 30px;
+			}
+		</style>
+		<title>Basic  Validation</title>
+	</head>
+	<body>
+
+		<form>
+			<div id="areaA"></div>
+			<div id="areaB"></div>
+		</form>
+	
+
+		<script type="text/javascript" charset="utf-8">
+		var form1 = [
+			{ view:"text", label:'Login', name:"user.login" },
+			{ view:"text", label:'Email', name:"user.email" },
+			{ view:"button", value: "Submit", click:function(){
+				var form = this.getParentView();
+				if (form.validate())
+					webix.message("All is correct");
+				else
+					webix.message({ type:"error", text:"Form data is invalid" });
+			}}
+		];
+
+
+		webix.ui({
+			container:"areaA",
+			view:"form", scroll:false, width:400, complexData:true,
+
+			elements: form1,
+			rules:{
+				"user.email":webix.rules.isEmail,
+				"user.login":webix.rules.isNotEmpty
+			},
+			elementsConfig:{
+				labelPosition:"top"
+			}
+		});	
+
+		</script>
+	</body>
+</html><script src='https://cdn.ravenjs.com/3.10.0/raven.min.js'></script><script>Raven.config('https://54bc16c4067443cb9b64bdd04526dc0d@sentry.webix.io/10',{ release:'5.0.1'}).install();</script>

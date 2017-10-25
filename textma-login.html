@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="include/css/webix.css" type="text/css"   charset="utf-8">
+    <title>Login</title>
+    <link href="include/css/bootstrap.css" rel="stylesheet"></link>
+    <link href="include/css/app.css" rel="stylesheet"></link>
+    <script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+    #areaA, #areaB{
+        margin: 30px;
+    }
+</style>
+</head>
+<body>
+
+    <div class="row col-md-12 ml-1 mt-1">
+        <a href="index.html">
+            <img src="include/images/textma-logo.jpg">
+        </a>
+        <H1 class="ml-1 mt-3">TEXTMA</H1>
+    </div>
+
+
+    <div class="col-md-12 login-form">
+
+        <form>
+            <div id="areaA"></div>
+            <div id="areaB"></div>
+        </form>
+
+
+    </div>
+
+
+    <script type="text/javascript" charset="utf-8">
+        var form1 = [
+        { view:"text", label:'Login', name:"user.login" },
+        { view:"text", type:'password', value:'', label:"Password", name:"user.password" },
+        { view:"button", value: "Submit", click:function(){
+            var form = this.getParentView();
+            if (form.validate())
+                document.location.href="accueil.html";
+            else
+                webix.message({ type:"error", text:"Form data is invalid" });
+        }}
+        ];
+
+
+        webix.ui({
+            container:"areaA",
+            view:"form", scroll:false, width:400, complexData:true,
+
+            elements: form1,
+            rules:{
+                "user.password":webix.rules.isNotEmpty,
+                "user.login":webix.rules.isNotEmpty
+            },
+            elementsConfig:{
+                labelPosition:"top"
+            }
+        }); 
+
+    </script>
+</body>
+</html>

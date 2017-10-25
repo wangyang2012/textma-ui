@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Client</title>
+		<link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="include/css/material.css" type="text/css" charset="utf-8">
+
+		<script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
+		<script src="include/js/skin.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+
+		<div id="menu"></div>
+
+		<h1>Factures du client</h1>
+
+		<div id="my_form"></div>
+
+		<button class="button primary col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
+		<button class="button success col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
+		<button class="button warning col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
+
+		<div id="select_page"></div>
+		<div id="grid"></div>
+		<div id="paging_here"></div>
+		<div id="selectedRow"></div>
+
+
+		<script type="text/javascript" charset="utf-8">
+
+
+            function getUrlVariable( name, url ) {
+                    if (!url) url = location.href;
+                    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+                    var regexS = "[\\?&]"+name+"=([^&#]*)";
+                    var regex = new RegExp( regexS );
+                    var results = regex.exec( url );
+                    return results == null ? null : results[1];
+            }
+
+
+		webix.ready(function(){
+            var idClient = getUrlVariable('client_id', window.location.href);
+            console.log("idClient: ", idClient);
+            var clientForm = [
+                { view:"text", label:"Name", name:"name", width: 500, css:"bg_success"},
+                { view:"text",  label:"Adresse", name:"address", width: 500},
+                { view:"button",  name:"submit", value:"Submit", css:"button_success button_raised", width:200, click:function(){
+                    var form = this.getParentView();
+                    webix.ajax().post("http://localhost:9090/textma/teClients", form.getValues(), function(text, data, xhr){ });
+                }}
+            ];
+
+            webix.ui({
+                container:"menu",
+                view:"menu",
+                autowidth:true,
+                data:[
+                    { id:"1",value:"Clients", submenu:[ "FB", "G+", "TW" ]},
+                    { id:"2",value:"Accueil", submenu:[ "FB", "G+", "TW" ]},
+                    { id:"3",value:"Clients", submenu:[ "FB", "G+", "TW" ]},
+                    { id:"4",value:"Factures", width: 500,
+                        submenu:[ "Facebook", "Google+", "Twitter" ]},
+                    { id:"5",value:"Articles",
+                        submenu:[ "Commandes", "Google+ Site", "Twitter Site" ]},
+                    { id:"6",value:"Commandes",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]}
+                ],
+                type:{
+                    subsign:false,
+					height: 50
+                }
+            });
+
+            webix.ui({
+                view:"form",
+                container:"my_form",
+                elements: clientForm,
+				url: "http://localhost:9090/textma/teClients/"+idClient
+            });
+
+			grida = webix.ui({
+				container:"grid",
+				view:"datatable",
+				select:"row",
+				autowidth:true,
+				autoheight:true,
+				datafetch:20,
+				autoConfig:true,
+                editable:true,
+                columns:[
+                    { id:"numeroFacture",			header:"Numéro facture", 		width:100 },
+                    { id:"reference",				header:"Référence", 			width:600 },
+                    { id:"raisonSociale", editor:"text",			header:"Raison sociale",		width:200 },
+                    { id:"dateCreation",			header:"Date de création",		width:300 },
+                    { id:"totalHt",	  editor:"text",				header:"Total HT",				width:150 },
+                    { id:"totalTva",  editor:"text",				header:"Total TVA",				width:150 },
+                    { id:"totalTtc", editor:"text",				header:"Total TTC",				width:150 },
+                    { id:"adresse",	 editor:"text",				header:"Adresse",				width:700 },
+                ],
+				pager: {
+                    container:"paging_here",
+                    template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
+                    size:20,
+                    group:8
+				},
+
+                url:"http://localhost:9090/textma/teFactures/" + idClient
+			});
+
+            grida.getPager().clone({
+                container:"select_page",
+                template: function(data, common){
+							var current = data.page + 1;
+							var html = "Page <select onchange='grida.setPage(this.value)' style='text-align:center; width:150px'>";
+							for (var i=1; i<=data.limit; i++)
+								html+="<option "+(i == current?"selected='true'":"")+">"+i+"</option>";
+							html+="</select> from "+data.limit;
+							return html;
+						},
+                size:20,
+                group:8
+            });
+		});
+		</script>
+	</body>
+</html>

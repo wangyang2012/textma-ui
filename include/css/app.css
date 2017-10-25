@@ -1,0 +1,30 @@
+body {
+    background-image: url("../images/fond.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 100vh !important;
+}
+
+.floatRight{
+	float:right;
+	margin-right: 18px;
+}
+
+ul.nav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.header img {
+    float: left;
+    margin: 10px;
+}
+
+
+.login-form {
+    text-align: center;
+}
+
+.login-form form {
+    display: inline-block;
+}

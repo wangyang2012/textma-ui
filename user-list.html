@@ -1,0 +1,75 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Users List</title>
+    <link href="include/css/bootstrap.css" rel="stylesheet"></link>
+    <link href="include/css/app.css" rel="stylesheet"></link>
+</head>
+
+<body>
+
+<div class="row col-md-12 ml-1 mt-1">
+    <a href="accueil.html">
+        <img src="include/images/textma-logo.jpg">
+    </a>
+    <H1 class="ml-1 mt-3">TEXTMA</H1>
+</div>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="accueil.html">ACCUEIL</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="user-list.html">Utilisateurs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="client-list.html">Clients</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="">Articles</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="">Livraison</a>
+    </li>
+</ul>
+
+<h3>List of Users</h3>
+<table id="userList" class="table table-hover table-bordered">
+    <thead>
+    <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+        <th>SSO ID</th>
+        <th width="100"></th>
+        <th width="100"></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr>
+        <td>test</td>
+        <td>test</td>
+        <td>dfqs</td>
+        <td>etienne.bancaltest</td>
+        <td><a href="user.html" class="btn btn-success custom-width">edit</a></td>
+        <td><a href="" class="btn btn-danger custom-width">delete</a></td>
+    </tr>
+
+    <tr>
+        <td>Yang</td>
+        <td>WANG</td>
+        <td>yang@yang.com</td>
+        <td>yang</td>
+        <td><a href="user.html" class="btn btn-success custom-width">edit</a></td>
+        <td><a href="" class="btn btn-danger custom-width">delete</a></td>
+    </tr>
+
+    </tbody>
+</table>
+<div>
+    <a href="user.html">Add New User</a>
+</div>
+</body>
+</html>

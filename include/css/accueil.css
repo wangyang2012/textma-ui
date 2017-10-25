@@ -1,0 +1,10 @@
+.icon {
+    height: 128px;
+    width: 128px;
+    margin: 50px;
+}
+
+.icon:hover {
+    height: 150px;
+    width: 150px;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Clients</title>
+		<!--<link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">-->
+		<link rel="stylesheet" href="include/skins/metro.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="include/css/bootstrap.css" type="text/css" charset="utf-8">
+		<script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<h1>Clients</h1>
+
+		<div id="select_page"></div>
+		<div id="grid" class="table table-striped"></div>
+		<div id="paging_here"></div>
+		<div id="selectedRow"></div>
+		<script type="text/javascript" charset="utf-8">
+
+
+		webix.ready(function(){
+
+			grida = webix.ui({
+				container:"grid",
+				view:"datatable",
+				select:"row",
+				autowidth:true,
+				autoheight:true,
+				datafetch:20,
+				dragColumn:true,
+
+                columns:[
+                    { id:"id",			header:["Id", {content:"serverFilter"}], 				width:50, sort:"server" },
+                    { id:"name",		header:["Name",{content:"serverFilter"}],editor:"text", 				width:400, sort:"server" },
+                    { id:"siret",		header:"Siret",				width:200 },
+                    { id:"address",		header:"Adresse",			width:400 },
+                    { id:"codePostal",	header:"Code postal",		width:120 },
+                    { id:"ville",		header:"Ville",				width:200 }
+                ],
+//                autoConfig:true,
+				pager: {
+                    container:"paging_here",
+                    template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
+                    size:20,
+                    group:8
+				},
+                on:{
+                    onSelectChange:function(){
+                        var text = "Selected: "+grida.getSelectedId(true).join();
+                        document.getElementById('selectedRow').innerHTML = text;
+                        window.location.href = "te_client_factures.html?client_id=" + grida.getSelectedId(true).join();
+                    }
+                },
+
+                url:"http://localhost:9090/textma/teClients"
+			});
+
+            grida.getPager().clone({
+                container:"select_page",
+                template: function(data, common){
+							var current = data.page + 1;
+							var html = "Page <select onchange='grida.setPage(this.value)' style='text-align:center; width:150px'>";
+							for (var i=1; i<=data.limit; i++)
+								html+="<option "+(i == current?"selected='true'":"")+">"+i+"</option>";
+							html+="</select> from "+data.limit;
+							return html;
+						},
+                size:20,
+                group:8
+            });
+
+
+		});
+
+		</script>
+	</body>
+</html>
