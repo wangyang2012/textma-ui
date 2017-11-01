@@ -16,7 +16,7 @@
 		<h1>Clients</h1>
 
 		<div id="select_page"></div>
-		<div id="grid" class="col-md-12"></div>
+		<div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 		<div id="paging_here"></div>
 		<div id="selectedRow"></div>
 		<script type="text/javascript" charset="utf-8">
@@ -64,22 +64,31 @@
 				view:"datatable",
 				select:"row",
 				autowidth:true,
-				autoheight:true,
-				datafetch:20,
+                height:(window.innerHeight*0.8),
+				datafetch:50,
 				dragColumn:true,
                 columns:[
-                    { id:"id",			header:["Id", {content:"serverFilter"}], 				width:50},
-                    { id:"name",		header:["Name",{content:"serverFilter"}], 				width:400},
-                    { id:"siret",		header:"Siret",				width:200 },
-                    { id:"address",		header:"Adresse",			width:400 },
-                    { id:"codePostal",	header:"Code postal",		width:120 },
-                    { id:"ville",		header:"Ville",				width:200 }
+                    { id:"id",                      sort:"server",		header:"Id", 		            width:50},
+                    { id:"m",                       sort:"server",		header:"M", 		            width:50},
+                    { id:"bloquer",                 sort:"server",		header:"Bloqué", 		        width:50},
+                    { id:"fermer",                  sort:"server",		header:"Fermé", 		        width:50},
+                    { id:"derniereModification",    sort:"server",		header:"Dernière modification", width:400},
+                    { id:"numero",                  sort:"server",		header:"Numéro", 		        width:400},
+                    { id:"name",                    sort:"server",		header:"Société", 		        width:400},
+                    { id:"address",                 sort:"server",		header:"Adresse",			    width:400 },
+                    { id:"codePostal",              sort:"server",	    header:"Code postal",		    width:120 },
+                    { id:"ville",                   sort:"server",		header:"Ville",				    width:200 },
+                    { id:"telephone",               sort:"server",		header:"Téléphone",             width:200 },
+                    { id:"siret",                   sort:"server",		header:"Siret",                 width:200 },
+                    { id:"rcs",                     sort:"server",		header:"RCS",                   width:200 },
+                    { id:"famille",                 sort:"server",		header:"Famille",               width:200 },
+                    { id:"mode_de_paiement",        sort:"server",		header:"Mode de paiement",      width:200 }
                 ],
                 autoConfig:true,
 				pager: {
                     container:"paging_here",
                     template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
-                    size:20,
+                    size:50,
                     group:8
 				},
                 on:{
