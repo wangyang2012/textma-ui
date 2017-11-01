@@ -2,9 +2,7 @@
 <html>
 	<head>
 		<title>Clients</title>
-		<!--<link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">-->
-		<link rel="stylesheet" href="include/skins/metro.css" type="text/css" charset="utf-8">
-		<link rel="stylesheet" href="include/css/bootstrap.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
 		<script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
@@ -27,16 +25,15 @@
 				autoheight:true,
 				datafetch:20,
 				dragColumn:true,
-
                 columns:[
-                    { id:"id",			header:["Id", {content:"serverFilter"}], 				width:50, sort:"server" },
-                    { id:"name",		header:["Name",{content:"serverFilter"}],editor:"text", 				width:400, sort:"server" },
+                    { id:"id",			header:["Id", {content:"serverFilter"}], 				width:50},
+                    { id:"name",		header:["Name",{content:"serverFilter"}], 				width:400},
                     { id:"siret",		header:"Siret",				width:200 },
                     { id:"address",		header:"Adresse",			width:400 },
                     { id:"codePostal",	header:"Code postal",		width:120 },
                     { id:"ville",		header:"Ville",				width:200 }
                 ],
-//                autoConfig:true,
+                autoConfig:true,
 				pager: {
                     container:"paging_here",
                     template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
@@ -67,8 +64,6 @@
                 size:20,
                 group:8
             });
-
-
 		});
 
 		</script>
