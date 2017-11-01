@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html>
 	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Clients</title>
-		<link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
-		<script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" href="include/css/bootstrap.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="include/css/material.css" type="text/css" charset="utf-8">
+
+        <script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
+        <script src="include/js/skin.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
+        <div id="menu"></div>
+
 		<h1>Clients</h1>
 
 		<div id="select_page"></div>
-		<div id="grid" class="table table-striped"></div>
+		<div id="grid" class="col-md-12"></div>
 		<div id="paging_here"></div>
 		<div id="selectedRow"></div>
 		<script type="text/javascript" charset="utf-8">
 
 
 		webix.ready(function(){
+
+            webix.ui({
+                container:"menu",
+                view:"menu",
+                autowidth:true,
+                data:[
+                    { id:"1",value:"TEXTMA"},
+                    { id:"2",value:"Accueil"},
+                    { id:"3",value:"Client", submenu:[ "Clients", "Fournisseurs", "Familles clients", "Clients principaux", "Contacts", "Location longue durée" ]},
+                    { id:"4",value:"Articles", width: 500,
+                        submenu:[ "Facebook", "Google+", "Twitter" ]},
+                    { id:"5",value:"Vente",
+                        submenu:[ "Commandes", "Google+ Site", "Twitter Site" ]},
+                    { id:"6",value:"Facturation",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                    { id:"7",value:"Préparation",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                    { id:"8",value:"Confection",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                    { id:"9",value:"Logistique",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                    { id:"10",value:"Production",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                    { id:"11",value:"Stock",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                    { id:"12",value:"Statistiques",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                    { id:"13",value:"Administration",
+                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]}
+                ],
+                type:{
+                    subsign:false,
+                    height: 50
+                }
+            });
 
 			grida = webix.ui({
 				container:"grid",
