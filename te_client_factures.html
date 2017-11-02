@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="include/css/material.css" type="text/css" charset="utf-8">
 
+		<script src="include/js/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
 		<script src="include/js/skin.js" type="text/javascript" charset="utf-8"></script>
 	</head>
@@ -29,17 +30,6 @@
 
 
 		<script type="text/javascript" charset="utf-8">
-
-
-            function getUrlVariable( name, url ) {
-                    if (!url) url = location.href;
-                    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-                    var regexS = "[\\?&]"+name+"=([^&#]*)";
-                    var regex = new RegExp( regexS );
-                    var results = regex.exec( url );
-                    return results == null ? null : results[1];
-            }
-
 
 		webix.ready(function(){
             var idClient = getUrlVariable('client_id', window.location.href);
@@ -94,7 +84,7 @@
                     { id:"numeroFacture",			header:"Numéro facture", 		width:100 },
                     { id:"reference",				header:["Référence",{content:"serverFilter"}], 			width:600 },
                     { id:"raisonSociale", editor:"text",			header:"Raison sociale",		width:200 },
-                    { id:"dateCreation",			header:"Date de création",		width:300 },
+                    { id:"dateCreation",			header:"Date de création",		width:300, format: formatDatetime},
                     { id:"totalHt",	  editor:"text",				header:"Total HT",				width:150 },
                     { id:"totalTva",  editor:"text",				header:"Total TVA",				width:150 },
                     { id:"totalTtc", editor:"text",				header:"Total TTC",				width:150 },

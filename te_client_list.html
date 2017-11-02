@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
         <link rel="stylesheet" href="include/css/material.css" type="text/css" charset="utf-8">
 
+        <script src="include/js/common.js" type="text/javascript" charset="utf-8"></script>
         <script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
         <script src="include/js/skin.js" type="text/javascript" charset="utf-8"></script>
 	</head>
@@ -14,108 +15,115 @@
         <div id="menu"></div>
 
 		<h1>Clients</h1>
-
-		<div id="select_page"></div>
+        <div class="row col-md-12">
+		    <div id="select_page" class="col-md-2"></div>
+            <div class="col-md-10 input-group"><input type="text" class="col-md-6 form-control" id='myfilter'><input type="button" class="btn bg_primary button_raised col-md-1 ml-1" value='chercher' onclick='search();'></div>
+        </div>
 		<div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 		<div id="paging_here"></div>
 		<div id="selectedRow"></div>
 		<script type="text/javascript" charset="utf-8">
 
+            function search(){
+                pageSize = grida.getPager().data.size;
+                grida.clearAll();
+                grida.load("http://localhost:9090/textma/teClients?search="+document.getElementById("myfilter").value+"&count="+pageSize);
+            }
+            webix.ready(function(){
 
-		webix.ready(function(){
-
-            webix.ui({
-                container:"menu",
-                view:"menu",
-                autowidth:true,
-                data:[
-                    { id:"1",value:"TEXTMA"},
-                    { id:"2",value:"Accueil"},
-                    { id:"3",value:"Client", submenu:[ "Clients", "Fournisseurs", "Familles clients", "Clients principaux", "Contacts", "Location longue durée" ]},
-                    { id:"4",value:"Articles", width: 500,
-                        submenu:[ "Facebook", "Google+", "Twitter" ]},
-                    { id:"5",value:"Vente",
-                        submenu:[ "Commandes", "Google+ Site", "Twitter Site" ]},
-                    { id:"6",value:"Facturation",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
-                    { id:"7",value:"Préparation",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
-                    { id:"8",value:"Confection",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
-                    { id:"9",value:"Logistique",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
-                    { id:"10",value:"Production",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
-                    { id:"11",value:"Stock",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
-                    { id:"12",value:"Statistiques",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
-                    { id:"13",value:"Administration",
-                        submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]}
-                ],
-                type:{
-                    subsign:false,
-                    height: 50
-                }
-            });
-
-			grida = webix.ui({
-				container:"grid",
-				view:"datatable",
-				select:"row",
-				autowidth:true,
-                height:(window.innerHeight*0.8),
-				datafetch:50,
-				dragColumn:true,
-                columns:[
-                    { id:"id",                      sort:"server",		header:"Id", 		            width:50},
-                    { id:"m",                       sort:"server",		header:"M", 		            width:50},
-                    { id:"bloquer",                 sort:"server",		header:"Bloqué", 		        width:50},
-                    { id:"fermer",                  sort:"server",		header:"Fermé", 		        width:50},
-                    { id:"derniereModification",    sort:"server",		header:"Dernière modification", width:400},
-                    { id:"numero",                  sort:"server",		header:"Numéro", 		        width:400},
-                    { id:"name",                    sort:"server",		header:"Société", 		        width:400},
-                    { id:"address",                 sort:"server",		header:"Adresse",			    width:400 },
-                    { id:"codePostal",              sort:"server",	    header:"Code postal",		    width:120 },
-                    { id:"ville",                   sort:"server",		header:"Ville",				    width:200 },
-                    { id:"telephone",               sort:"server",		header:"Téléphone",             width:200 },
-                    { id:"siret",                   sort:"server",		header:"Siret",                 width:200 },
-                    { id:"rcs",                     sort:"server",		header:"RCS",                   width:200 },
-                    { id:"famille",                 sort:"server",		header:"Famille",               width:200 },
-                    { id:"mode_de_paiement",        sort:"server",		header:"Mode de paiement",      width:200 }
-                ],
-                autoConfig:true,
-				pager: {
-                    container:"paging_here",
-                    template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
-                    size:50,
-                    group:8
-				},
-                on:{
-                    onSelectChange:function(){
-                        var text = "Selected: "+grida.getSelectedId(true).join();
-                        document.getElementById('selectedRow').innerHTML = text;
-                        window.location.href = "te_client_factures.html?client_id=" + grida.getSelectedId(true).join();
+                webix.ui({
+                    container:"menu",
+                    view:"menu",
+                    autowidth:true,
+                    data:[
+                        { id:"1",value:"TEXTMA"},
+                        { id:"2",value:"Accueil"},
+                        { id:"3",value:"Client", submenu:[ "Clients", "Fournisseurs", "Familles clients", "Clients principaux", "Contacts", "Location longue durée" ]},
+                        { id:"4",value:"Articles", width: 500,
+                            submenu:[ "Facebook", "Google+", "Twitter" ]},
+                        { id:"5",value:"Vente",
+                            submenu:[ "Commandes", "Google+ Site", "Twitter Site" ]},
+                        { id:"6",value:"Facturation",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                        { id:"7",value:"Préparation",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                        { id:"8",value:"Confection",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                        { id:"9",value:"Logistique",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                        { id:"10",value:"Production",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                        { id:"11",value:"Stock",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                        { id:"12",value:"Statistiques",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]},
+                        { id:"13",value:"Administration",
+                            submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]}
+                    ],
+                    type:{
+                        subsign:false,
+                        height: 50
                     }
-                },
+                });
 
-                url:"http://localhost:9090/textma/teClients"
-			});
+                grida = webix.ui({
+                    container:"grid",
+                    view:"datatable",
+                    select:"row",
+                    autowidth:true,
+                    height:(window.innerHeight*0.8),
+                    datafetch:50,
+                    dragColumn:true,
+                    columns:[
+                        { id:"id",                      sort:"server",		header:"Id", 		            width:50},
+                        { id:"m",                       sort:"server",		header:"M", 		            width:50},
+                        { id:"bloquer",                 sort:"server",		header:"Bloqué", 		        width:50,    checkValue:'1', uncheckValue:'0', template:"{common.checkbox()}"},
+                        { id:"fermer",                  sort:"server",		header:"Fermé", 		        width:50,    checkValue:'1', uncheckValue:'0', template:"{common.checkbox()}"},
+                        { id:"derniereModification",    sort:"server",		header:"Dernière modification", width:200,  format:formatDatetime},
+                        { id:"numero",                  sort:"server",		header:"Numéro", 		        width:400},
+                        { id:"name",                    sort:"server",		header:"Société", 		        width:400},
+                        { id:"address",                 sort:"server",		header:"Adresse",			    width:400 },
+                        { id:"codePostal",              sort:"server",	    header:"Code postal",		    width:120 },
+                        { id:"ville",                   sort:"server",		header:"Ville",				    width:200 },
+                        { id:"telephone",               sort:"server",		header:"Téléphone",             width:200 },
+                        { id:"siret",                   sort:"server",		header:"Siret",                 width:200 },
+                        { id:"rcs",                     sort:"server",		header:"RCS",                   width:200 },
+                        { id:"famille",                 sort:"server",		header:"Famille",               width:200 },
+                        { id:"mode_de_paiement",        sort:"server",		header:"Mode de paiement",      width:200 }
+                    ],
+                    autoConfig:true,
+                    pager: {
+                        container:"paging_here",
+                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
+                        size:50,
+                        group:8
+                    },
+                    on:{
+                        onSelectChange:function(){
+                            var text = "Selected: "+grida.getSelectedId(true).join();
+                            document.getElementById('selectedRow').innerHTML = text;
+                            window.location.href = "te_client_factures.html?client_id=" + grida.getSelectedId(true).join();
+                        }
+                    },
 
-            grida.getPager().clone({
-                container:"select_page",
-                template: function(data, common){
-							var current = data.page + 1;
-							var html = "Page <select onchange='grida.setPage(this.value)' style='text-align:center; width:150px'>";
-							for (var i=1; i<=data.limit; i++)
-								html+="<option "+(i == current?"selected='true'":"")+">"+i+"</option>";
-							html+="</select> from "+data.limit;
-							return html;
-						},
-                size:20,
-                group:8
+                    url:"http://localhost:9090/textma/teClients?search="+document.getElementById("myfilter").value
+                });
+
+                grida.getPager().clone({
+                    container:"select_page",
+                    template: function(data, common){
+                                var current = data.page + 1;
+                                var html = "Page <select onchange='grida.setPage(this.value)' style='text-align:center; width:150px'>";
+                                for (var i=1; i<=data.limit; i++)
+                                    html+="<option "+(i == current?"selected='true'":"")+">"+i+"</option>";
+                                html+="</select> from "+data.limit;
+                                return html;
+                            },
+                    size:20,
+                    group:8
+                });
+
             });
-		});
 
 		</script>
 	</body>
