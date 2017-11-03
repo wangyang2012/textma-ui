@@ -17,8 +17,9 @@
 		<h1>Clients</h1>
         <div class="row col-md-12">
 		    <div id="select_page" class="col-md-2"></div>
-            <div class="col-md-10 input-group"><input type="text" class="col-md-6 form-control" id='myfilter'><input type="button" class="btn bg_primary button_raised col-md-1 ml-1" value='chercher' onclick='search();'></div>
+            <div class="col-md-9 input-group"><input type="text" class="col-md-6 form-control" id='myfilter'><input type="button" class="btn bg_primary button_raised col-md-1 ml-1 mr-1" value='chercher' onclick='search();'><button class="btn bg_success" onclick="showHideColumnMenu()"><span class='webix_icon bg_success fa-bars'></span></button></div>
         </div>
+
 		<div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 		<div id="paging_here"></div>
 		<div id="selectedRow"></div>
@@ -75,21 +76,20 @@
                     datafetch:50,
                     dragColumn:true,
                     columns:[
-                        { id:"id",                      sort:"server",		header:"Id", 		            width:50},
-                        { id:"m",                       sort:"server",		header:"M", 		            width:50},
-                        { id:"bloquer",                 sort:"server",		header:"Bloqué", 		        width:50,    checkValue:'1', uncheckValue:'0', template:"{common.checkbox()}"},
-                        { id:"fermer",                  sort:"server",		header:"Fermé", 		        width:50,    checkValue:'1', uncheckValue:'0', template:"{common.checkbox()}"},
-                        { id:"derniereModification",    sort:"server",		header:"Dernière modification", width:200,  format:formatDatetime},
-                        { id:"numero",                  sort:"server",		header:"Numéro", 		        width:400},
-                        { id:"name",                    sort:"server",		header:"Société", 		        width:400},
-                        { id:"address",                 sort:"server",		header:"Adresse",			    width:400 },
-                        { id:"codePostal",              sort:"server",	    header:"Code postal",		    width:120 },
-                        { id:"ville",                   sort:"server",		header:"Ville",				    width:200 },
-                        { id:"telephone",               sort:"server",		header:"Téléphone",             width:200 },
-                        { id:"siret",                   sort:"server",		header:"Siret",                 width:200 },
-                        { id:"rcs",                     sort:"server",		header:"RCS",                   width:200 },
-                        { id:"famille",                 sort:"server",		header:"Famille",               width:200 },
-                        { id:"mode_de_paiement",        sort:"server",		header:"Mode de paiement",      width:200 }
+                        { id:"m",                       sort:"server",		header:"M", 		            adjust:"data"},
+                        { id:"bloque",					sort:"server",		header:"Bloqué", 		        adjust:"head",	checkValue:'1', uncheckValue:'0', template:"{common.checkbox()}"},
+                        { id:"ferme",					sort:"server",		header:"Fermé", 		        adjust:"head",	checkValue:'1', uncheckValue:'0', template:"{common.checkbox()}"},
+                        { id:"derniereModification",    sort:"server",		header:"Modification", 			adjust:"head",  format:formatDatetime},
+                        { id:"codeClient",				sort:"server",		header:"Code", 		        	adjust:"head"},
+                        { id:"nom",                    	sort:"server",		header:"Société", 		        adjust:"data"},
+                        { id:"siret",                   sort:"server",		header:"Siret",                 adjust:"data" },
+                        { id:"rcs",                     sort:"server",		header:"RCS",                   adjust:"data" },
+                        { id:"famille",                 sort:"server",		header:"Famille",               adjust:"data" ,	format: function(value){return value.nom;} },
+                        { id:"modePaiement",        	sort:"server",		header:"Mode de paiement",      adjust:"data",	format: function(value){return value.type + " - " + value.code + " - " + value.libelle;} },
+                        { id:"telephone",               sort:"server",		header:"Téléphone",             adjust:"data" },
+                        { id:"addresse",                sort:"server",		header:"Adresse",			    adjust:"data" },
+                        { id:"codePostal",              sort:"server",	    header:"Code postal",		    adjust:"data" },
+                        { id:"ville",                   sort:"server",		header:"Ville",				    adjust:"data" }
                     ],
                     autoConfig:true,
                     pager: {
@@ -122,7 +122,42 @@
                     size:20,
                     group:8
                 });
+            });
 
+            //show hide columns
+            function showHideColumnMenu(){
+                if( $$("showHideColumnsMenu").config.hidden){
+                    $$("showHideColumnsMenu").show();
+                }
+                else
+                    $$("showHideColumnsMenu").hide();
+            }
+
+            webix.ui({
+                view: "sidemenu",
+                id: "showHideColumnsMenu",
+                width: 200,
+				height: 100,
+                position: "right",
+                css: "rightSideMenu",
+                body:{
+                    view:"list",
+                    borderless:true,
+                    scroll: false,
+
+                    template: "<button onclick=hideColumn(#id#)>Afficher / Masquer #value#</button>",
+                    data:[
+                        {id: 1, value: "Customers", icon: "user"},
+                        {id: 2, value: "Products", icon: "cube"},
+                        {id: 3, value: "Reports", icon: "line-chart"},
+                        {id: 4, value: "Archives", icon: "database"},
+                        {id: 5, value: "Settings", icon: "cog"}
+                    ],
+                    select:true,
+                    type:{
+                        height: 40
+                    }
+                }
             });
 
 		</script>
