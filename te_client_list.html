@@ -6,15 +6,18 @@
         <link rel="stylesheet" href="include/css/bootstrap.css" type="text/css" charset="utf-8">
         <link rel="stylesheet" href="include/css/webix.css" type="text/css" charset="utf-8">
         <link rel="stylesheet" href="include/css/material.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="include/css/material.min.css">
 
         <script src="include/js/common.js" type="text/javascript" charset="utf-8"></script>
         <script src="include/js/webix.js" type="text/javascript" charset="utf-8"></script>
         <script src="include/js/skin.js" type="text/javascript" charset="utf-8"></script>
+		<script defer src="include/js/material.min.js"></script>
 	</head>
 	<body>
         <div id="menu"></div>
 
 		<h1>Clients</h1>
+
         <div class="row col-md-12">
 		    <div id="select_page" class="col-md-2"></div>
             <div class="col-md-9 input-group"><input type="text" class="col-md-6 form-control" id='myfilter'><input type="button" class="btn bg_primary button_raised col-md-1 ml-1 mr-1" value='chercher' onclick='search();'><button class="btn bg_success" onclick="showHideColumnMenu()"><span class='webix_icon bg_success fa-bars'></span></button></div>
@@ -141,13 +144,6 @@
 				}
 			}
 
-			function calculCss(columnId) {
-                console.log("calculCss: "+ columnId);
-                return "bg_success";
-			}
-
-
-
             webix.ui({
                 view: "sidemenu",
                 id: "showHideColumnsMenu",
@@ -160,7 +156,8 @@
                     borderless:true,
                     scroll: false,
 
-                    template: "<button onclick=showOrHideColumn('#id#') class='btn button_raised col-md-12 calculCss(#id#)'> "+calculCss("#id#")+" #value#</button>",
+                    template: "<button onclick=showOrHideColumn('#id#') class='btn button_raised col-md-12 bg_success'>#value#</button>",
+//                    template: "<div class='form-group row'><div class='form-check'><label class='form-check-label'><input class='form-check-input' type='checkbox' onclick=showOrHideColumn('#id#')>#value#</label></div></div>",
                     data:[
                         {id:"m",                    value: "M"},
                         {id:"bloque",				value: "Bloqué"},
