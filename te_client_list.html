@@ -72,7 +72,7 @@
                     view:"datatable",
                     select:"row",
                     autowidth:true,
-                    height:(window.innerHeight*0.8),
+                    height:(window.innerHeight*0.77),
                     datafetch:50,
                     dragColumn:true,
                     columns:[
@@ -88,7 +88,7 @@
                         { id:"modePaiement",        	sort:"server",		header:"Mode de paiement",      adjust:"data",	format: function(value){return value.type + " - " + value.code + " - " + value.libelle;} },
                         { id:"telephone",               sort:"server",		header:"Téléphone",             adjust:"data" },
                         { id:"adresse",                 sort:"server",		header:"Adresse",			    adjust:"data" },
-                        { id:"codePostal",              sort:"server",	    header:"Code postal",		    adjust:"data" },
+                        { id:"codePostal",              sort:"server",	    header:"CP",				    adjust:"data" },
                         { id:"ville",                   sort:"server",		header:"Ville",				    adjust:"data" }
                     ],
                     autoConfig:true,
@@ -133,10 +133,25 @@
                     $$("showHideColumnsMenu").hide();
             }
 
+            function showOrHideColumn(columnId) {
+                if (grida.isColumnVisible(columnId)) {
+                    grida.hideColumn(columnId);
+				} else {
+                    grida.showColumn(columnId);
+				}
+			}
+
+			function calculCss(columnId) {
+                console.log("calculCss: "+ columnId);
+                return "bg_success";
+			}
+
+
+
             webix.ui({
                 view: "sidemenu",
                 id: "showHideColumnsMenu",
-                width: 200,
+                width: 300,
 				height: 100,
                 position: "right",
                 css: "rightSideMenu",
@@ -145,13 +160,23 @@
                     borderless:true,
                     scroll: false,
 
-                    template: "<button onclick=hideColumn(#id#)>Afficher / Masquer #value#</button>",
+                    template: "<button onclick=showOrHideColumn('#id#') class='btn button_raised col-md-12 calculCss(#id#)'> "+calculCss("#id#")+" #value#</button>",
                     data:[
-                        {id: 1, value: "Customers", icon: "user"},
-                        {id: 2, value: "Products", icon: "cube"},
-                        {id: 3, value: "Reports", icon: "line-chart"},
-                        {id: 4, value: "Archives", icon: "database"},
-                        {id: 5, value: "Settings", icon: "cog"}
+                        {id:"m",                    value: "M"},
+                        {id:"bloque",				value: "Bloqué"},
+                        {id:"ferme",				value: "Fermé"},
+                        {id:"derniereModification", value: "Date de modification"},
+                        {id:"codeClient",			value: "Code"},
+                        {id:"nom",                  value: "Société"},
+                        {id:"siret",                value: "Siret"},
+                        {id:"rcs",                  value: "RCS"},
+                        {id:"famille",              value: "Famille"},
+                        {id:"modePaiement",         value: "Mode de paiement"},
+                        {id:"telephone",            value: "Téléphone"},
+                        {id:"adresse",              value: "Adresse"},
+                        {id:"codePostal",           value: "Code postal"},
+                        {id:"ville",                value: "Ville"}
+
                     ],
                     select:true,
                     type:{
