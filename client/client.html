@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Client</title>
+		<link rel="stylesheet" href="../include/css/bootstrap.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="../include/css/webix.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
+
+		<script src="../include/js/tether.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../include/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../include/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../include/js/webix.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../include/js/skin.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+	<body>
+
+		<div id="menu"></div>
+
+		<h1>Client</h1>
+
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" href="#test" role="tab" data-toggle="tab">test</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#profile" role="tab" data-toggle="tab">profile</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#buzz" role="tab" data-toggle="tab">buzz</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#references" role="tab" data-toggle="tab">references</a>
+			</li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="test">TEST</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				<div id="my_form"></div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="buzz">
+				<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
+				<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
+				<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="references">ccc</div>
+		</div>
+
+
+
+
+
+
+		<script type="text/javascript" charset="utf-8">
+
+			webix.ready(function(){
+				var idClient = getUrlVariable('client_id', window.location.href);
+				console.log("idClient: ", idClient);
+				var clientForm = [
+					{ view:"text", label:"Name", name:"name", width: 500, css:"bg_success"},
+					{ view:"text",  label:"Adresse", name:"address", width: 500},
+					{ view:"button",  name:"submit", value:"Submit", css:"button_success button_raised", width:200, click:function(){
+						var form = this.getParentView();
+						webix.ajax().post("http://localhost:9090/textma/teClients", form.getValues(), function(text, data, xhr){ });
+					}}
+				];
+
+				webix.ui({
+					container:"menu",
+					view:"menu",
+					autowidth:true,
+					data:[
+						{ id:"1",value:"TEXTMA"},
+						{ id:"2",value:"Accueil", submenu:[ "FB", "G+", "TW" ]},
+						{ id:"3",value:"Clients", submenu:[ "FB", "G+", "TW" ]},
+						{ id:"4",value:"Factures", width: 500,
+							submenu:[ "Facebook", "Google+", "Twitter" ]},
+						{ id:"5",value:"Articles",
+							submenu:[ "Commandes", "Google+ Site", "Twitter Site" ]},
+						{ id:"6",value:"Commandes",
+							submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]}
+					],
+					type:{
+						subsign:false,
+						height: 50
+					}
+				});
+
+				webix.ui({
+					view:"form",
+					container:"my_form",
+					elements: clientForm,
+					url: "http://localhost:9090/textma/teClients/"+idClient
+				});
+
+			});
+
+		</script>
+	</body>
+</html>

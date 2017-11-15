@@ -27,12 +27,24 @@
         <button class="btn bg_success" onclick="showHideColumnMenu()"><span
                 class='webix_icon bg_success fa-bars'></span></button>
     </div>
+
+    <button class="btn bg_success" onclick="noPagination()"><span class='webix_icon bg_warning fa-pagelines'></span></button>
+    <button class="btn bg_success" onclick="withPagination()"><span class='webix_icon bg_info fa-odnoklassniki'></span></button>
+
 </div>
 
 <div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 <div id="paging_here"></div>
 <div id="selectedRow"></div>
 <script type="text/javascript" charset="utf-8">
+    function noPagination() {
+        grida.getPager().s.size=10000;
+        search();
+    }
+    function withPagination() {
+        grida.getPager().s.size=20;
+        search();
+    }
 
     function inputing(e) {
         if (e.keyCode == 13) {
@@ -188,7 +200,7 @@
                 onSelectChange: function () {
                     var text = "Selected: " + grida.getSelectedId(true).join();
                     document.getElementById('selectedRow').innerHTML = text;
-                    window.location.href = "te_client_factures.html?client_id=" + grida.getSelectedId(true).join();
+                    window.location.href = "client.html?client_id=" + grida.getSelectedId(true).join();
                 }
             },
 
