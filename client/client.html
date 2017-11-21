@@ -63,7 +63,7 @@
 			<div role="tabpanel" class="tab-pane" id="observations">
 				<textarea></textarea>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="sous_client">sous_client</div>
+			<div role="tabpanel" class="tab-pane" id="sous_clients"><div id="gridSousClients"></div></div>
 			<div role="tabpanel" class="tab-pane" id="tableau_de_bord">Tableau de bord</div>
 			<div role="tabpanel" class="tab-pane" id="statistiques">Statistiques</div>
 		</div>
@@ -116,6 +116,38 @@
 				});
 
 			});
+
+
+
+			// Grid sous clients
+            grida = webix.ui({
+                container:"gridSousClients",
+                view:"datatable",
+                select:"row",
+                autowidth:true,
+                autoheight:true,
+                datafetch:20,
+                autoConfig:true,
+                editable:true,
+                columns:[
+                    { id:"id",			header:"ID", 		width:100 },
+                    { id:"reference",				header:["Référence",{content:"serverFilter"}], 			width:600 },
+                    { id:"raisonSociale", editor:"text",			header:"Raison sociale",		width:200 },
+                    { id:"dateCreation",			header:"Date de création",		width:300, format: formatDatetime},
+                    { id:"totalHt",	  editor:"text",				header:"Total HT",				width:150 },
+                    { id:"totalTva",  editor:"text",				header:"Total TVA",				width:150 },
+                    { id:"totalTtc", editor:"text",				header:"Total TTC",				width:150 },
+                    { id:"adresse",	 editor:"text",				header:"Adresse",				width:700 },
+                ],
+                pager: {
+                    container:"paging_here",
+                    template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
+                    size:20,
+                    group:8
+                },
+
+                url:"http://localhost:9090/textma/tjLiaisonClient?mereId=" + idClient
+            });
 
 		</script>
 	</body>
