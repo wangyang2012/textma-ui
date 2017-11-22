@@ -50,27 +50,62 @@
 
 		<!-- Tab panes -->
 		<div class="tab-content">
+
+			<!--Onglet Général-->
 			<div role="tabpanel" class="tab-pane active" id="general">Général</div>
+
+			<!--Onglet Contacts-->
 			<div role="tabpanel" class="tab-pane" id="contacts">
 				<div id="my_form"></div>
 			</div>
+
+			<!--Onglet Adresses livraison-->
 			<div role="tabpanel" class="tab-pane fade" id="adresses_livraison">
 				<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
 				<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
 				<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="remises">REMISE</div>
+
+			<!--Onglet Remise-->
+			<div role="tabpanel" class="tab-pane" id="remises">Remise</div>
+
+			<!--Onglet Observation-->
 			<div role="tabpanel" class="tab-pane" id="observations">
 				<textarea></textarea>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="sous_clients"><div id="gridSousClients"></div></div>
+
+			<!--Onglet Sous clients-->
+			<div role="tabpanel" class="tab-pane" id="sous_clients"><div id="gridSousClients"></div>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listClientModal">
+				Ajouter un sous client
+			</button></div>
+
+			<!--Onglet Tableau de bord-->
 			<div role="tabpanel" class="tab-pane" id="tableau_de_bord">Tableau de bord</div>
+
+			<!--Onglet Statistiques-->
 			<div role="tabpanel" class="tab-pane" id="statistiques">Statistiques</div>
 		</div>
 
-
-
-
+		<!-- List client Modal -->
+		<div class="modal fade" id="listClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="max-width: 1200px" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">List des clients</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div id="gridAllClients"></div>
+					</div>
+					<div class="modal-footer">
+						<div id="pagingAllClients"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 
 		<script type="text/javascript" charset="utf-8">
@@ -115,40 +150,98 @@
 					url: "http://localhost:9090/textma/teClients/"+idClient
 				});
 
+
+                // Grid sous clients
+                gridSousClients = webix.ui({
+                    container:"gridSousClients",
+                    view:"datatable",
+                    select:"row",
+                    autowidth:true,
+                    autoheight:true,
+                    datafetch:20,
+                    autoConfig:true,
+                    editable:true,
+                    columns: [
+                        {id: "codeClient", sort: "server", header: "Code", adjust: "head"},
+                        {id: "nom", sort: "server", header: "Société", adjust: "data"},
+                        {id: "siret", sort: "server", header: "Siret", adjust: "data"},
+                        {
+                            id: "totalFacture",
+                            sort: "server",
+                            header: "Total facture",
+                            adjust: "data",
+                            format: webix.Number.numToStr({
+                                groupDelimiter: " ",
+                                groupSize: 3,
+                                decimalDelimiter: ",",
+                                decimalSize: 2
+                            })
+                        },
+                        {id: "rcs", sort: "server", header: "RCS", adjust: "data"},
+                        {
+                            id: "derniereModification",
+                            sort: "server",
+                            header: "Modification",
+                            adjust: "head",
+                            format: formatDatetime
+                        },
+                        {
+                            id: "famille", sort: "server", header: "Famille", adjust: "data", format: function (value) {
+                            return value.nom;
+                        }
+                        },
+                        {
+                            id: "modePaiement",
+                            sort: "server",
+                            header: "Mode de paiement",
+                            adjust: "data",
+                            format: function (value) {
+                                return value.type + " - " + value.code + " - " + value.libelle;
+                            }
+                        },
+                        {id: "telephone", sort: "server", header: "Téléphone", adjust: "data"},
+                        {id: "adresse", sort: "server", header: "Adresse", adjust: "data"},
+                        {id: "codePostal", sort: "server", header: "CP", adjust: "data"},
+                        {id: "ville", sort: "server", header: "Ville", adjust: "data"}
+                    ],
+
+                    url:"http://localhost:9090/textma/teClients/sous-client/" + idClient
+                });
+
+                gridAllClients = webix.ui({
+                    container: "gridAllClients",
+                    view: "datatable",
+                    select: "row",
+					width: 1150,
+					autoWidth: true,
+                    height: (window.innerHeight * 0.7),
+                    datafetch: 20,
+                    dragColumn: true,
+                    columns: [
+                        {id: "codeClient", sort: "server", header: "Code", adjust: "head"},
+                        {id: "nom", sort: "server", header: ["Société",{content:"serverFilter"}], adjust: "data"},
+                        {id: "siret", sort: "server", header: "Siret", adjust: "data"},
+                        {id: "famille", sort: "server", header: "Famille", adjust: "data", format: function (value) {return value.nom;}}
+                    ],
+                    autoConfig: true,
+                    pager: {
+                        container: "pagingAllClients",
+                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
+                        size: 20,
+						width: 500,
+                        group: 8
+                    },
+                    on: {
+                        onSelectChange: function () {
+//                            window.location.href = "client.html?client_id=" + gridAllClients.getSelectedId(true).join();
+//							call WS
+                            $('#listClientModal').modal('hide');
+//                            gridAllClients.reload;
+                        }
+                    },
+                    url: "http://localhost:9090/textma/teClients"
+                });
 			});
-
-
-
-			// Grid sous clients
-            grida = webix.ui({
-                container:"gridSousClients",
-                view:"datatable",
-                select:"row",
-                autowidth:true,
-                autoheight:true,
-                datafetch:20,
-                autoConfig:true,
-                editable:true,
-                columns:[
-                    { id:"id",			header:"ID", 		width:100 },
-                    { id:"reference",				header:["Référence",{content:"serverFilter"}], 			width:600 },
-                    { id:"raisonSociale", editor:"text",			header:"Raison sociale",		width:200 },
-                    { id:"dateCreation",			header:"Date de création",		width:300, format: formatDatetime},
-                    { id:"totalHt",	  editor:"text",				header:"Total HT",				width:150 },
-                    { id:"totalTva",  editor:"text",				header:"Total TVA",				width:150 },
-                    { id:"totalTtc", editor:"text",				header:"Total TTC",				width:150 },
-                    { id:"adresse",	 editor:"text",				header:"Adresse",				width:700 },
-                ],
-                pager: {
-                    container:"paging_here",
-                    template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
-                    size:20,
-                    group:8
-                },
-
-                url:"http://localhost:9090/textma/tjLiaisonClient?mereId=" + idClient
-            });
-
 		</script>
 	</body>
 </html>
