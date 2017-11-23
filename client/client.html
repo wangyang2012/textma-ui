@@ -10,9 +10,9 @@
 		<script src="../include/js/tether.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/webix.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/skin.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
 
 	</head>
 	<body>
@@ -122,26 +122,6 @@
 					}}
 				];
 
-				webix.ui({
-					container:"menu",
-					view:"menu",
-					autowidth:true,
-					data:[
-						{ id:"1",value:"TEXTMA"},
-						{ id:"2",value:"Accueil", submenu:[ "FB", "G+", "TW" ]},
-						{ id:"3",value:"Clients", submenu:[ "FB", "G+", "TW" ]},
-						{ id:"4",value:"Factures", width: 500,
-							submenu:[ "Facebook", "Google+", "Twitter" ]},
-						{ id:"5",value:"Articles",
-							submenu:[ "Commandes", "Google+ Site", "Twitter Site" ]},
-						{ id:"6",value:"Commandes",
-							submenu:[ "Facebook Site - Social Network", "Google+", "Twitter" ]}
-					],
-					type:{
-						subsign:false,
-						height: 50
-					}
-				});
 
 				webix.ui({
 					view:"form",
