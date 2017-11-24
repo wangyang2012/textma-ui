@@ -35,7 +35,7 @@
 				<a class="nav-link" href="#remises" role="tab" data-toggle="tab">Remises</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#observations" role="tab" data-toggle="tab">Observations</a>
+				<a class="nav-link" href="#observationsDiv" role="tab" data-toggle="tab">Observations</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#sous_clients" role="tab" data-toggle="tab">Sous clients</a>
@@ -49,42 +49,51 @@
 		</ul>
 
 		<!-- Tab panes -->
-		<div class="tab-content">
+		<div id="clientFormDiv">
+			<form class="myform">
+				<div class="tab-content">
 
-			<!--Onglet Général-->
-			<div role="tabpanel" class="tab-pane active" id="general">Général</div>
+					<!--Onglet Général-->
+					<div role="tabpanel" class="tab-pane active" id="general">
+						Name: <input name="nom" class="col-md-8"></input>
+					</div>
 
-			<!--Onglet Contacts-->
-			<div role="tabpanel" class="tab-pane" id="contacts">
-				<div id="my_form"></div>
-			</div>
+					<!--Onglet Contacts-->
+					<div role="tabpanel" class="tab-pane" id="contacts">
+						<!--<div id="my_form"></div>-->
+					</div>
 
-			<!--Onglet Adresses livraison-->
-			<div role="tabpanel" class="tab-pane fade" id="adresses_livraison">
-				<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
-				<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
-				<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
-			</div>
+					<!--Onglet Adresses livraison-->
+					<div role="tabpanel" class="tab-pane fade" id="adresses_livraison">
+						<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
+						<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
+						<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
+					</div>
 
-			<!--Onglet Remise-->
-			<div role="tabpanel" class="tab-pane" id="remises">Remise</div>
+					<!--Onglet Remise-->
+					<div role="tabpanel" class="tab-pane" id="remises">Remise</div>
 
-			<!--Onglet Observation-->
-			<div role="tabpanel" class="tab-pane" id="observations">
-				<textarea></textarea>
-			</div>
+					<!--Onglet Observations-->
+					<div role="tabpanel" class="tab-pane" id="observationsDiv">
+						<textarea name="observations" id="observations" class="col-md-8" style="min-height: 600px"></textarea>
+					</div>
 
-			<!--Onglet Sous clients-->
-			<div role="tabpanel" class="tab-pane" id="sous_clients"><div id="gridSousClients"></div>
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listClientModal">
-				Ajouter un sous client
-			</button></div>
 
-			<!--Onglet Tableau de bord-->
-			<div role="tabpanel" class="tab-pane" id="tableau_de_bord">Tableau de bord</div>
+					<!--Onglet Sous clients-->
+					<div role="tabpanel" class="tab-pane" id="sous_clients"><div id="gridSousClients"></div>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listClientModal">
+						Ajouter un sous client
+					</button></div>
 
-			<!--Onglet Statistiques-->
-			<div role="tabpanel" class="tab-pane" id="statistiques">Statistiques</div>
+					<!--Onglet Tableau de bord-->
+					<div role="tabpanel" class="tab-pane" id="tableau_de_bord">Tableau de bord</div>
+
+					<!--Onglet Statistiques-->
+					<div role="tabpanel" class="tab-pane" id="statistiques">Statistiques</div>
+
+				</div>
+
+			</form>
 		</div>
 
 		<!-- List client Modal -->
@@ -112,23 +121,22 @@
 
 			webix.ready(function(){
 				var idClient = getUrlVariable('client_id', window.location.href);
-				console.log("idClient: ", idClient);
-				var clientForm = [
-					{ view:"text", label:"Name", name:"name", width: 500, css:"bg_success"},
-					{ view:"text",  label:"Adresse", name:"address", width: 500},
-					{ view:"button",  name:"submit", value:"Submit", css:"button_success button_raised", width:200, click:function(){
-						var form = this.getParentView();
-						webix.ajax().post("http://localhost:9090/textma/teClients", form.getValues(), function(text, data, xhr){ });
-					}}
-				];
+//				var clientForm = [
+//					{ view:"text", label:"Name", name:"name", width: 500, css:"bg_success"},
+//					{ view:"text",  label:"Adresse", name:"address", width: 500},
+//					{ view:"button",  name:"submit", value:"Submit", css:"button_success button_raised", width:200, click:function(){
+//						var form = this.getParentView();
+//						webix.ajax().post("http://localhost:9090/textma/teClients", form.getValues(), function(text, data, xhr){ });
+//					}}
+//				];
 
 
-				webix.ui({
-					view:"form",
-					container:"my_form",
-					elements: clientForm,
-					url: "http://localhost:9090/textma/teClients/"+idClient
-				});
+                webix.ui({
+                    view:"htmlform",
+					id:"clientForm",
+					content: "clientFormDiv",
+                    url: "http://localhost:9090/textma/teClients/"+idClient
+                });
 
 
                 // Grid sous clients
