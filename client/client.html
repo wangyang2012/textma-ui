@@ -186,6 +186,42 @@
                     url: "http://localhost:9090/textma/teContacts/" + idClient
                 });
 
+                // Onglet Adresses livraison
+                gridContacts = webix.ui({
+                    container: "gridLivraisons",
+                    view: "datatable",
+                    select: "row",
+                    height: (window.innerHeight * 0.75),
+                    width: (window.innerWidth * 0.99),
+                    datafetch: 20,
+                    dragColumn: true,
+                    columns: [
+                        {id: "nomSociete", sort: "server", header: "Nom Société", adjust: "data"},
+                        {id: "adresse", sort: "server", header: "Adresse", adjust: "data"},
+                        {id: "codePostal", sort: "server", header: "CodePostal", adjust: "head"},
+                        {id: "ville", sort: "server", header: "Ville", adjust: "data"},
+                        {id: "telephone", sort: "server", header: "Téléphone", adjust: "head"},
+                        {id: "fax", sort: "server", header: "Fax", adjust: "data"},
+                        {id: "email", sort: "server", header: "Email", adjust: "head"},
+                        {id: "observations", sort: "server", header: "Observations", adjust: "head"}
+                    ],
+                    autoConfig: true,
+                    pager: {
+                        container: "pagerLivraisons",
+                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} total: #count#',
+                        width: 500,
+                        size: 20,
+                        group: 8
+                    },
+                    on: {
+                        onSelectChange: function () {
+                            var text = "Selected: " + grida.getSelectedId(true).join();
+                            document.getElementById('selectedRow').innerHTML = text;
+                        }
+                    },
+                    url: "http://localhost:9090/textma/teAdresses/" + idClient
+                });
+
 
 
                 // Grid sous clients
