@@ -61,7 +61,9 @@
 							<!--CP: <input name="codepostal" class="col-md-8"></input><br/>-->
 							Ville: <input name="ville" class="col-md-8"></input><br/>
 						<!--totalFacture: <input name="totalFacture" class="col-md-8"></input><br/>-->
-
+                        <button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
+                        <button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
+                        <button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
 					</div>
 
 					<!--Onglet Contacts-->
@@ -72,9 +74,8 @@
 
 					<!--Onglet Adresses livraison-->
 					<div role="tabpanel" class="tab-pane fade" id="adresses_livraison">
-						<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
-						<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
-						<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
+                        <div id="gridLivraisons"></div>
+                        <div id="pagerLivraisons"></div>
 					</div>
 
 					<!--Onglet Remise-->
@@ -151,7 +152,6 @@
                     container: "gridContacts",
                     view: "datatable",
                     select: "row",
-//                    width: (window.innerWidth * 0.99),
                     height: (window.innerHeight * 0.75),
 					autowidth:true,
                     datafetch: 20,
