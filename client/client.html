@@ -151,8 +151,9 @@
                     container: "gridContacts",
                     view: "datatable",
                     select: "row",
-                    autowidth: true,
-                    height: (window.innerHeight * 0.72),
+//                    width: (window.innerWidth * 0.99),
+                    height: (window.innerHeight * 0.75),
+					autowidth:true,
                     datafetch: 20,
                     dragColumn: true,
                     columns: [
@@ -171,7 +172,7 @@
                     autoConfig: true,
                     pager: {
                         container: "pagerContacts",
-                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} #limit#',
+                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} total: #count#',
 						width: 500,
                         size: 20,
                         group: 8
