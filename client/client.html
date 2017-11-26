@@ -55,18 +55,19 @@
 
 					<!--Onglet Général-->
 					<div role="tabpanel" class="tab-pane active" id="general">
-							Code: <input name="codeClient" class="col-md-8"></input>
-							Name: <input name="nom" class="col-md-8"></input>
-							Adresse: <input name="adresse" class="col-md-8"></input>
-							CP: <input name="Postal" class="col-md-8"></input>
-							Ville: <input name="ville" class="col-md-8"></input>
-						totalFacture: <input name="totalFacture" class="col-md-8"></input>
+							<!--Code: <input name="codeClient" id="codeClient" type="text" class="col-md-8"></input><br/>-->
+							Name: <input name="nom" class="col-md-8"></input><br/>
+							Adresse: <input name="adresse" class="col-md-8"></input><br/>
+							<!--CP: <input name="codepostal" class="col-md-8"></input><br/>-->
+							Ville: <input name="ville" class="col-md-8"></input><br/>
+						<!--totalFacture: <input name="totalFacture" class="col-md-8"></input><br/>-->
 
 					</div>
 
 					<!--Onglet Contacts-->
 					<div role="tabpanel" class="tab-pane" id="contacts">
-						<!--<div id="my_form"></div>-->
+						<div id="gridContacts"></div>
+						<div id="pagerContacts"></div>
 					</div>
 
 					<!--Onglet Adresses livraison-->
@@ -137,12 +138,53 @@
 //				];
 
 
+				// Onglet Général
                 webix.ui({
                     view:"htmlform",
 					id:"clientForm",
 					content: "clientFormDiv",
                     url: "http://localhost:9090/textma/teClients/"+idClient
                 });
+
+                // Onglet Contacts
+                gridContacts = webix.ui({
+                    container: "gridContacts",
+                    view: "datatable",
+                    select: "row",
+                    autowidth: true,
+                    height: (window.innerHeight * 0.72),
+                    datafetch: 20,
+                    dragColumn: true,
+                    columns: [
+                        {id: "civilite", sort: "server", header: "Civilité", adjust: "head"},
+                        {id: "nom", sort: "server", header: "Nom", adjust: "data"},
+                        {id: "prenom", sort: "server", header: "Prénom", adjust: "data"},
+                        {id: "fonction", sort: "server", header: "Fonction", adjust: "data", format: function (value) {return value.nom;}},
+                        {id: "email", sort: "server", header: "Email", adjust: "data"},
+                        {id: "portable", sort: "server", header: "Portable", adjust: "data"},
+                        {id: "telephone", sort: "server", header: "Téléphone", adjust: "data"},
+                        {id: "fax", sort: "server", header: "Fax", adjust: "data"},
+                        {id: "facturation", sort: "server", header: "Facturation", adjust: "head",checkValue: '1', uncheckValue: '0', template: "{common.checkbox()}"},
+                        {id: "logistique", sort: "server", header: "Logistique", adjust: "head",checkValue: '1', uncheckValue: '0', template: "{common.checkbox()}"},
+                        {id: "commercial", sort: "server", header: "Commercial", adjust: "head",checkValue: '1', uncheckValue: '0', template: "{common.checkbox()}"}
+                    ],
+                    autoConfig: true,
+                    pager: {
+                        container: "pagerContacts",
+                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} #limit#',
+						width: 500,
+                        size: 20,
+                        group: 8
+                    },
+                    on: {
+                        onSelectChange: function () {
+                            var text = "Selected: " + grida.getSelectedId(true).join();
+                            document.getElementById('selectedRow').innerHTML = text;
+                        }
+                    },
+                    url: "http://localhost:9090/textma/teContacts/" + idClient
+                });
+
 
 
                 // Grid sous clients

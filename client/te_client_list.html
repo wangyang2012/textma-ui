@@ -29,7 +29,6 @@
 
 <div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 <div id="paging_here"></div>
-<div id="selectedRow"></div>
 <script type="text/javascript" charset="utf-8">
     function togglePagination() {
         if (grida.getPager().s.size == 10000) {
@@ -134,7 +133,6 @@
             on: {
                 onSelectChange: function () {
                     var text = "Selected: " + grida.getSelectedId(true).join();
-                    document.getElementById('selectedRow').innerHTML = text;
                     window.location.href = "client.html?client_id=" + grida.getSelectedId(true).join();
                 }
             },
