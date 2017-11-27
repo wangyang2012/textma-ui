@@ -1784,3 +1784,5 @@ body.webix_print *{visibility:hidden}
 .webix_view.webix_el_label{box-sizing:border-box}
 .webix_inp_label,.webix_inp_top_label,.webix_label_right{margin-bottom:0}
 .webix_view table{border-collapse:initial}
+
+.webix_column>div:nth-child(even){background-color:#c9dfff}
