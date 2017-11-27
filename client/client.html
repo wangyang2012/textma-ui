@@ -97,7 +97,11 @@
 					<div role="tabpanel" class="tab-pane" id="tableau_de_bord">Tableau de bord</div>
 
 					<!--Onglet Statistiques-->
-					<div role="tabpanel" class="tab-pane" id="statistiques">Statistiques</div>
+					<div role="tabpanel" class="tab-pane" id="statistiques">
+                        <div id="pageSelecterFactures"></div>
+                        <div id="gridFactures"></div>
+                        <div id="pagerFactures"></div>
+                    </div>
 
 				</div>
 
@@ -299,7 +303,7 @@
                     autoConfig: true,
                     pager: {
                         container: "pagingAllClients",
-                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
+                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} total: #count#',
                         size: 20,
 						width: 500,
                         group: 8
@@ -313,6 +317,52 @@
                         }
                     },
                     url: "http://localhost:9090/textma/teClients"
+                });
+
+
+                gridFactures = webix.ui({
+                    container:"gridFactures",
+                    view:"datatable",
+                    select:"row",
+                    autowidth:true,
+                    height: (window.innerHeight * 0.7),
+                    datafetch:20,
+                    autoConfig:true,
+                    editable:true,
+                    columns:[
+                        { id:"numeroFacture", sort: "server",			header:"Numéro facture", adjust:"head"},
+                        { id:"reference", sort: "server",				header:"Référence", adjust: "data"},
+                        { id:"raisonSociale", sort: "server", editor:"text",			header:"Raison sociale", adjust: "data"},
+                        { id:"dateCreation", sort: "server",			header:"Date de création", format: formatDatetime, adjust: "head"},
+                        { id:"totalHt", sort: "server",	  editor:"text",				header:"Total HT", adjust: "head"},
+                        { id:"totalTva", sort: "server",  editor:"text",				header:"Total TVA", adjust: "head"},
+                        { id:"totalTtc", sort: "server", editor:"text",				header:"Total TTC", adjust: "head"},
+                        { id:"adresse", sort: "server",	 editor:"text",				header:"Adresse", adjust: "data"},
+                    ],
+                    pager: {
+                        container:"pagerFactures",
+                        template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} total: #count#',
+                        size:20,
+                        width: 600,
+                        group:8
+                    },
+
+                    url:"http://localhost:9090/textma/teFactures/" + idClient
+                });
+
+                gridFactures.getPager().clone({
+                    container:"pageSelecterFactures",
+                    template: function(data, common){
+                        var current = data.page + 1;
+                        var html = "Page <select onchange='gridFactures.setPage(this.value)' style='text-align:center; width:150px'>";
+                        for (var i=1; i<=data.limit; i++)
+                            html+="<option "+(i == current?"selected='true'":"")+">"+i+"</option>";
+                        html+="</select> from "+data.limit;
+                        return html;
+                    },
+                    size:20,
+                    width: 250,
+                    group:8
                 });
 			});
 		</script>
