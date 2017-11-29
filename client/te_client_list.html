@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../include/css/checkbox.css">
 
-    <script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
     <script src="../include/js/webix.js" type="text/javascript" charset="utf-8"></script>
     <script src="../include/js/skin.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div id="menu"></div>
@@ -22,30 +22,15 @@
     <div class="col-md-9 input-group">
         <input type="text" class="col-md-6 form-control" id='myfilter' onkeypress="inputing(event)">
         <input type="button" class="btn bg_primary button_raised col-md-2 ml-1 mr-1" value='chercher' onclick='search();'>
-        <button class="btn ml-1 bg_warning" onclick="togglePagination()" title="Pagination"><span class='webix_icon fa-map-o'></span></button>
         <button class="btn ml-1 bg_success" onclick="showHideColumnMenu()" title="Masquer colonnes"><span class='webix_icon fa-bars'></span></button>
-        <button class="btn ml-1 bg_warning" onclick="toggleSorting()" title="Trier par factures"><span class='webix_icon fa-map-o'></span></button>
-        <input type="checkbox" class="switch_1 ml-1" title="Tri par factures" onchange="toggleSorting(element)">
-        <input type="checkbox" class="ml-1" title="Tri par factures" onchange="toggleSorting(element)">
+        <input id="showInOnePage" type="checkbox" class="switch_1 ml-1" title="Afficher en une seule page" onchange="search()">
+        <input id="sortByFacture" type="checkbox" class="switch_1 ml-1" title="Tri par factures" onchange="search()">
     </div>
 </div>
 
 <div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 <div id="paging_here"></div>
 <script type="text/javascript" charset="utf-8">
-    function togglePagination() {
-        if (grida.getPager().s.size == 10000) {
-            grida.getPager().s.size = 20;
-        } else {
-            grida.getPager().s.size = 10000;
-        }
-        search();
-    }
-
-    function toggleSorting(element) {
-        alert(element);
-        search(element.checked);
-    }
 
     function inputing(e) {
         if (e.keyCode == 13) {
@@ -53,10 +38,23 @@
         }
     }
 
-    function search(sortByFacture) {
+    function search() {
         pageSize = grida.getPager().data.size;
         grida.clearAll();
-        url = "http://localhost:9090/textma/teClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize + "&sortByFactures=" + sortByFacture;
+        url = "http://localhost:9090/textma/teClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize;
+        sortByFacture = document.getElementById("sortByFacture").checked;
+        if (sortByFacture) {
+            url += "&sort[totalFacture]=desc";
+        }
+
+        showInOnePage = document.getElementById("showInOnePage").checked;
+        if (showInOnePage) {
+            grida.getPager().s.size = 10000;
+            $$("pageSelecter").s.size = 10000;
+        } else {
+            grida.getPager().s.size = 20;
+            $$("pageSelecter").s.size = 20;
+        }
         grida.load(url);
     }
 
@@ -151,6 +149,7 @@
 
         grida.getPager().clone({
             container: "select_page",
+            id: "pageSelecter",
             template: function (data, common) {
                 var current = data.page + 1;
                 var html = "Page <select onchange='grida.setPage(this.value)' style='text-align:center; width:150px'>";
