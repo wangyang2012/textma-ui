@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Clients</title>
+    <title>Clients principaux</title>
     <link rel="stylesheet" href="../include/css/bootstrap.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../include/css/webix.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
@@ -15,7 +15,7 @@
 <body>
 <div id="menu"></div>
 
-<h1>Clients</h1>
+<h1>Clients principaux</h1>
 
 <div class="row col-md-12">
     <div id="select_page" class="col-md-2"></div>
@@ -41,7 +41,7 @@
     function search() {
         pageSize = grida.getPager().data.size;
         grida.clearAll();
-        url = "http://localhost:9090/textma/teClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize;
+        url = "http://localhost:9090/textma/tjLiaisonClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize;
         sortByFacture = document.getElementById("sortByFacture").checked;
         if (sortByFacture) {
             url += "&sort[totalFacture]=desc";
@@ -144,7 +144,7 @@
                 }
             },
 
-            url: "http://localhost:9090/textma/teClients?search=" + document.getElementById("myfilter").value
+            url: "http://localhost:9090/textma/tjLiaisonClients?search=" + document.getElementById("myfilter").value
         });
 
         grida.getPager().clone({

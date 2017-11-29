@@ -26,7 +26,7 @@ webix.ready(function () {
             {
                 id: "3",
                 value: "Client",
-                submenu: ["Clients", "Fournisseurs", "Familles clients", "Clients principaux", "Contacts", "Location longue durée"]
+                submenu: ["Clients", "Familles clients", "Clients principaux", "Contacts", "Location longue durée"]
             },
             {
                 id: "4", value: "Articles", width: 500,
@@ -71,7 +71,18 @@ webix.ready(function () {
         ],
         on: {
             onMenuItemClick: function (id) {
-                webix.message("Click: " + this.getMenuItem(id).value);
+                // webix.message("Click: " + this.getMenuItem(id).value);
+                clickedPage = this.getMenuItem(id).value;
+                societename = "/textma";
+                pathname = "";
+                switch(clickedPage) {
+                    case "Client": pathname = "/client/te_client_list.html";break;
+                    case "Clients": pathname = "/client/te_client_list.html";break;
+                    case "Familles clients": pathname = "/client/te_famille_client_list.html";break;
+                    case "Clients principaux": pathname = "/client/te_clients_principaux.html";break;
+                    default: pathname = "/accueil.html";break;
+                }
+                document.location = window.location.origin+pathname;
             }
         },
         type: {
