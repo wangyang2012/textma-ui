@@ -6,13 +6,11 @@
     <link rel="stylesheet" href="../include/css/bootstrap.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../include/css/webix.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
-    <link rel="stylesheet" href="../include/css/material.min.css">
     <link rel="stylesheet" href="../include/css/checkbox.css">
 
     <script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
     <script src="../include/js/webix.js" type="text/javascript" charset="utf-8"></script>
     <script src="../include/js/skin.js" type="text/javascript" charset="utf-8"></script>
-    <script defer src="../include/js/material.min.js"></script>
 </head>
 <body>
 <div id="menu"></div>
@@ -26,6 +24,7 @@
         <input type="button" class="btn bg_primary button_raised col-md-2 ml-1 mr-1" value='chercher' onclick='search();'>
         <button class="btn ml-1 bg_warning" onclick="togglePagination()" title="Pagination"><span class='webix_icon fa-map-o'></span></button>
         <button class="btn ml-1 bg_success" onclick="showHideColumnMenu()" title="Masquer colonnes"><span class='webix_icon fa-bars'></span></button>
+        <button class="btn ml-1 bg_warning" onclick="toggleSorting()" title="Trier par factures"><span class='webix_icon fa-map-o'></span></button>
         <input type="checkbox" class="switch_1 ml-1" title="Tri par factures" onchange="toggleSorting(element)">
         <input type="checkbox" class="ml-1" title="Tri par factures" onchange="toggleSorting(element)">
     </div>
@@ -33,8 +32,6 @@
 
 <div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 <div id="paging_here"></div>
-<div id="selectedRow"></div>
-
 <script type="text/javascript" charset="utf-8">
     function togglePagination() {
         if (grida.getPager().s.size == 10000) {
@@ -64,65 +61,6 @@
     }
 
     webix.ready(function () {
-
-        webix.ui({
-            container: "menu",
-            view: "menu",
-            autowidth: true,
-            data: [
-                {id: "1", value: "TEXTMA"},
-                {id: "2", value: "Accueil"},
-                {
-                    id: "3",
-                    value: "Client",
-                    submenu: ["Clients", "Fournisseurs", "Familles clients", "Clients principaux", "Contacts", "Location longue durée"]
-                },
-                {
-                    id: "4", value: "Articles", width: 500,
-                    submenu: ["Facebook", "Google+", "Twitter"]
-                },
-                {
-                    id: "5", value: "Vente",
-                    submenu: ["Commandes", "Google+ Site", "Twitter Site"]
-                },
-                {
-                    id: "6", value: "Facturation",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                },
-                {
-                    id: "7", value: "Préparation",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                },
-                {
-                    id: "8", value: "Confection",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                },
-                {
-                    id: "9", value: "Logistique",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                },
-                {
-                    id: "10", value: "Production",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                },
-                {
-                    id: "11", value: "Stock",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                },
-                {
-                    id: "12", value: "Statistiques",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                },
-                {
-                    id: "13", value: "Administration",
-                    submenu: ["Facebook Site - Social Network", "Google+", "Twitter"]
-                }
-            ],
-            type: {
-                subsign: false,
-                height: 50
-            }
-        });
 
         grida = webix.ui({
             container: "grid",
@@ -197,14 +135,13 @@
             autoConfig: true,
             pager: {
                 container: "paging_here",
-                template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}',
+                template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} total: #count#',
                 size: 20,
                 group: 8
             },
             on: {
                 onSelectChange: function () {
                     var text = "Selected: " + grida.getSelectedId(true).join();
-                    document.getElementById('selectedRow').innerHTML = text;
                     window.location.href = "client.html?client_id=" + grida.getSelectedId(true).join();
                 }
             },
