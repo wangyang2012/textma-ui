@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../include/css/webix.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../include/css/material.min.css">
+    <link rel="stylesheet" href="../include/css/checkbox.css">
 
     <script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
     <script src="../include/js/webix.js" type="text/javascript" charset="utf-8"></script>
@@ -24,14 +25,16 @@
         <input type="text" class="col-md-6 form-control" id='myfilter' onkeypress="inputing(event)">
         <input type="button" class="btn bg_primary button_raised col-md-2 ml-1 mr-1" value='chercher' onclick='search();'>
         <button class="btn ml-1 bg_warning" onclick="togglePagination()" title="Pagination"><span class='webix_icon fa-map-o'></span></button>
-        <button class="btn ml-1 bg_warning" onclick="toggleSorting()" title="Trier par factures"><span class='webix_icon fa-map-o'></span></button>
         <button class="btn ml-1 bg_success" onclick="showHideColumnMenu()" title="Masquer colonnes"><span class='webix_icon fa-bars'></span></button>
+        <input type="checkbox" class="switch_1 ml-1" title="Tri par factures" onchange="toggleSorting(element)">
+        <input type="checkbox" class="ml-1" title="Tri par factures" onchange="toggleSorting(element)">
     </div>
 </div>
 
 <div id="grid" class="col-md-12" style='width:100%; height:50%;'></div>
 <div id="paging_here"></div>
 <div id="selectedRow"></div>
+
 <script type="text/javascript" charset="utf-8">
     function togglePagination() {
         if (grida.getPager().s.size == 10000) {
@@ -42,16 +45,22 @@
         search();
     }
 
+    function toggleSorting(element) {
+        alert(element);
+        search(element.checked);
+    }
+
     function inputing(e) {
         if (e.keyCode == 13) {
             search();
         }
     }
 
-    function search() {
+    function search(sortByFacture) {
         pageSize = grida.getPager().data.size;
         grida.clearAll();
-        grida.load("http://localhost:9090/textma/teClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize);
+        url = "http://localhost:9090/textma/teClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize + "&sortByFactures=" + sortByFacture;
+        grida.load(url);
     }
 
     webix.ready(function () {
