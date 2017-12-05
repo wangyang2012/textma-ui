@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Contacts</title>
+    <link rel="stylesheet" href="../include/css/bootstrap.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../include/css/webix.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../include/css/checkbox.css">
+
+    <script src="../include/js/webix.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../include/js/skin.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../include/js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div id="menu"></div>
+
+<h1>Contacts</h1>
+
+<div class="row col-md-12">
+    <div id="select_page" class="col-md-2"></div>
+    <div class="col-md-9 input-group">
+        <input type="text" class="col-md-6 form-control" id='myfilter' onkeypress="inputing(event)">
+        <input type="button" class="btn bg_primary button_raised col-md-2 ml-1 mr-1" value='chercher' onclick='search();'>
+        <button class="btn ml-1 bg_success" onclick="showHideColumnMenu()" title="Masquer colonnes"><span class='webix_icon fa-bars'></span></button>
+        <input id="showInOnePage" type="checkbox" class="switch_1 ml-1" title="Afficher en une seule page" onchange="search()">
+    </div>
+</div>
+
+<div id="grid" class="col-md-12" style='width:90%; height:50%;'></div>
+<div id="paging_here"></div>
+<script type="text/javascript" charset="utf-8">
+
+    function inputing(e) {
+        if (e.keyCode == 13) {
+            search();
+        }
+    }
+
+    function search() {
+        pageSize = grida.getPager().data.size;
+        grida.clearAll();
+        url = "http://localhost:9090/textma/teContacts?search=" + document.getElementById("myfilter").value + "&count=" + pageSize + "&sort[societe]=asc";
+
+        showInOnePage = document.getElementById("showInOnePage").checked;
+        if (showInOnePage) {
+            grida.getPager().s.size = 10000;
+            $$("pageSelecter").s.size = 10000;
+        } else {
+            grida.getPager().s.size = 20;
+            $$("pageSelecter").s.size = 20;
+        }
+        grida.load(url);
+    }
+
+    webix.ready(function () {
+
+        grida = webix.ui({
+            container: "grid",
+            view: "datatable",
+            select: "row",
+            autowidth: true,
+            height: (window.innerHeight * 0.72),
+            datafetch: 20,
+            dragColumn: true,
+            columns: [
+                {id: "client", sort: "server", header: "Société", adjust: "head", format: function (value) {return value.nom;}},
+                {id: "nom", sort: "server", header: "Nom", adjust: "head"},
+                {id: "prenom", sort: "server", header: "Prénom", adjust: "data"},
+                {id: "telephone", sort: "server", header: "Téléphone", adjust: "data"},
+                {id: "portable", sort: "server", header: "Portable", adjust: "data"},
+                {id: "email", sort: "server", header: "Email", adjust: "data"},
+                {id: "fonction", sort: "server", header: "Fonction", adjust: "data", format: function (value) {return value.nom;}}
+            ],
+            autoConfig: true,
+            pager: {
+                container: "paging_here",
+                template: '{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} total: #count#',
+                size: 20,
+                group: 8
+            },
+
+            url: "http://localhost:9090/textma/teContacts?search=" + document.getElementById("myfilter").value + "&sort[societe]=asc"
+        });
+
+        grida.getPager().clone({
+            container: "select_page",
+            id: "pageSelecter",
+            template: function (data, common) {
+                var current = data.page + 1;
+                var html = "Page <select onchange='grida.setPage(this.value)' style='text-align:center; width:150px'>";
+                for (var i = 1; i <= data.limit; i++)
+                    html += "<option " + (i == current ? "selected='true'" : "") + ">" + i + "</option>";
+                html += "</select> from " + data.limit;
+                return html;
+            },
+            size: 20,
+            group: 8
+        });
+    });
+
+    //show hide columns
+    function showHideColumnMenu() {
+        if ($$("showHideColumnsMenu").config.hidden) {
+            $$("showHideColumnsMenu").show();
+        }
+        else
+            $$("showHideColumnsMenu").hide();
+    }
+
+    function showOrHideColumn(columnId) {
+        if (grida.isColumnVisible(columnId)) {
+            grida.hideColumn(columnId);
+        } else {
+            grida.showColumn(columnId);
+        }
+    }
+
+    webix.ui({
+        view: "sidemenu",
+        id: "showHideColumnsMenu",
+        width: 300,
+        height: 100,
+        position: "right",
+        css: "rightSideMenu",
+        body: {
+            view: "list",
+            borderless: true,
+            scroll: false,
+
+            template: "<button onclick=showOrHideColumn('#id#') class='btn button_raised col-md-12 bg_success'>#value#</button>",
+//                    template: "<div class='form-group row'><div class='form-check'><label class='form-check-label'><input class='form-check-input' type='checkbox' onclick=showOrHideColumn('#id#')>#value#</label></div></div>",
+            data: [
+                {id: "societe", value: "Société"},
+                {id: "nom", value: "Nom"},
+                {id: "prenom", value: "Prénom"},
+                {id: "telephone", value: "Téléphone"},
+                {id: "portable", value: "Mobile"},
+                {id: "email", value: "Email"},
+                {id: "fonction", value: "Fonction"}
+            ],
+            select: true,
+            type: {
+                height: 40
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

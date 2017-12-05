@@ -80,6 +80,7 @@ webix.ready(function () {
                     case "Clients": pathname = "/client/te_client_list.html";break;
                     case "Familles clients": pathname = "/client/te_famille_client_list.html";break;
                     case "Clients principaux": pathname = "/client/te_clients_principaux.html";break;
+                    case "Contacts": pathname = "/client/te_contacts.html";break;
                     default: pathname = "/accueil.html";break;
                 }
                 document.location = window.location.origin+pathname;
