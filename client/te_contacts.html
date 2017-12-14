@@ -40,7 +40,7 @@
     function search() {
         pageSize = grida.getPager().data.size;
         grida.clearAll();
-        url = "http://localhost:9090/textma/teContacts?search=" + document.getElementById("myfilter").value + "&count=" + pageSize + "&sort[societe]=asc";
+        url = "http://"+serverIP+":9090/textma/teContacts?search=" + document.getElementById("myfilter").value + "&count=" + pageSize + "&sort[societe]=asc";
 
         showInOnePage = document.getElementById("showInOnePage").checked;
         if (showInOnePage) {

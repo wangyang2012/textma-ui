@@ -8,6 +8,12 @@ function getUrlVariable( name, url ) {
     return results == null ? null : results[1];
 }
 
+function getServerIp() {
+    host = window.location.host; // localhost:8080
+    return host.split(":")[0];
+}
+
+
 function formatDatetime(value) {
     //2015-07-12T22:00:00.000+0000
     values = value.split("T");
@@ -15,6 +21,8 @@ function formatDatetime(value) {
 }
 
 webix.ready(function () {
+
+    serverIP = getServerIp();
 
     webix.ui({
         container: "menu",
