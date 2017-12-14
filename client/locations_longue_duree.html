@@ -144,7 +144,7 @@
                 }
             },
 
-            url: "http://localhost:9090/textma/tjLiaisonClients?search=" + document.getElementById("myfilter").value
+            url: "http://"+serverIP+":9090/textma/tjLiaisonClients?search=" + document.getElementById("myfilter").value
         });
 
         grida.getPager().clone({

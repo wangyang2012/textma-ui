@@ -142,7 +142,7 @@
 //					{ view:"text",  label:"Adresse", name:"address", width: 500},
 //					{ view:"button",  name:"submit", value:"Submit", css:"button_success button_raised", width:200, click:function(){
 //						var form = this.getParentView();
-//						webix.ajax().post("http://localhost:9090/textma/teClients", form.getValues(), function(text, data, xhr){ });
+//						webix.ajax().post("http://"+serverIP+":9090/textma/teClients", form.getValues(), function(text, data, xhr){ });
 //					}}
 //				];
 
@@ -152,7 +152,7 @@
                     view:"htmlform",
 					id:"clientForm",
 					content: "clientFormDiv",
-                    url: "http://localhost:9090/textma/teClients/"+idClient
+                    url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
 
                 // Onglet Contacts
@@ -191,7 +191,7 @@
                             document.getElementById('selectedRow').innerHTML = text;
                         }
                     },
-                    url: "http://localhost:9090/textma/teContacts/" + idClient
+                    url: "http://"+serverIP+":9090/textma/teContacts/" + idClient
                 });
 
                 // Onglet Adresses livraison
@@ -227,7 +227,7 @@
                             document.getElementById('selectedRow').innerHTML = text;
                         }
                     },
-                    url: "http://localhost:9090/textma/teAdresses/" + idClient
+                    url: "http://"+serverIP+":9090/textma/teAdresses/" + idClient
                 });
 
 
@@ -366,7 +366,7 @@
                         {id: "ville", sort: "server", header: "Ville", adjust: "data"}
                     ],
 
-                    url:"http://localhost:9090/textma/teClients/sous-client/" + idClient
+                    url:"http://"+serverIP+":9090/textma/teClients/sous-client/" + idClient
                 });
 
                 gridAllClients = webix.ui({
@@ -400,7 +400,7 @@
 //                            gridAllClients.reload;
                         }
                     },
-                    url: "http://localhost:9090/textma/teClients"
+                    url: "http://"+serverIP+":9090/textma/teClients"
                 });
 
 
@@ -431,7 +431,7 @@
                         group:8
                     },
 
-                    url:"http://localhost:9090/textma/teFactures/" + idClient
+                    url:"http://"+serverIP+":9090/textma/teFactures/" + idClient
                 });
 
                 gridFactures.getPager().clone({

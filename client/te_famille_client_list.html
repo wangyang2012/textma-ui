@@ -48,7 +48,7 @@
     function search() {
         pageSize = gridFamilleClient.getPager().data.size;
         gridFamilleClient.clearAll();
-        gridFamilleClient.load("http://localhost:9090/textma/teFamilleClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize);
+        gridFamilleClient.load("http://"+serverIP+":9090/textma/teFamilleClients?search=" + document.getElementById("myfilter").value + "&count=" + pageSize);
     }
 
     webix.ready(function () {
@@ -78,7 +78,7 @@
                 }
             },
 
-            url: "http://localhost:9090/textma/teFamilleClients?search=" + document.getElementById("myfilter").value
+            url: "http://"+serverIP+":9090/textma/teFamilleClients?search=" + document.getElementById("myfilter").value
         });
 
         gridFamilleClient.getPager().clone({
