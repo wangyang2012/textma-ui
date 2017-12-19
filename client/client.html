@@ -60,8 +60,6 @@
 							<!--CP: <input name="codepostal" class="col-md-8"></input><br/>-->
 							Ville: <input name="ville" class="col-md-8"></input><br/>
 
-
-
 						<!--totalFacture: <input name="totalFacture" class="col-md-8"></input><br/>-->
                         <button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
                         <button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
@@ -83,7 +81,9 @@
 					<!--Onglet Remise-->
 					<div role="tabpanel" class="tab-pane" id="remises">
 						<input id="treeRemiseFilterInput"/>
-                        <div id="treeRemise"></div>
+						<div id="treeRemiseDiv">
+                        	<div id="treeRemise"></div>
+						</div>
 					</div>
 
 					<!--Onglet Observations-->
@@ -228,13 +228,14 @@
                     view:"tree",
                     select:true,
                     width:"90%",
-                    height:"50%",
+                    minHeight:"50%",
                     template:"{common.icon()} {common.folder()} <span>#value#</span>",
                     url: "http://"+serverIP+":9090/textma/remise/"+idClient,
                     on: {
                         onAfterSelect: function (id) {
                             console.log(id);
-                        }
+                            treeRemise.render();
+						}
                     },
                 });
 
@@ -380,6 +381,7 @@
                     group:8
                 });
 			});
+
 		</script>
 	</body>
 </html>
