@@ -79,7 +79,7 @@
 					</div>
 
 					<!--Onglet Remise-->
-					<div role="tabpanel" class="tab-pane" id="remises">
+					<div role="tabpanel" class="tab-pane" id="remises" style="height: 800px;overflow: auto;">
 						<input id="treeRemiseFilterInput"/>
 						<div id="treeRemiseDiv">
                         	<div id="treeRemise"></div>
@@ -233,8 +233,9 @@
                     url: "http://"+serverIP+":9090/textma/remise/"+idClient,
                     on: {
                         onAfterSelect: function (id) {
-                            console.log(id);
-                            treeRemise.render();
+                            url = "http://"+serverIP+":9090/textma/remise/"+idClient+"/"+id;
+                            console.log(url);
+                            treeRemise.load(url);
 						}
                     },
                 });
