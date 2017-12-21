@@ -28,3 +28,7 @@ ul.nav {
 .login-form form {
     display: inline-block;
 }
+
+.remise {
+    color: red;
+}
