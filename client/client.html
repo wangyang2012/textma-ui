@@ -54,16 +54,72 @@
 
 					<!--Onglet Général-->
 					<div role="tabpanel" class="tab-pane active" id="general">
-							<!--Code: <input name="codeClient" id="codeClient" type="text" class="col-md-8"></input><br/>-->
-							Name: <input name="nom" class="col-md-8"></input><br/>
-							Adresse: <input name="adresse" class="col-md-8"></input><br/>
+
+
+							<!--Adresse: <input name="adresse" class="col-md-8"/><br/>-->
 							<!--CP: <input name="codepostal" class="col-md-8"></input><br/>-->
-							Ville: <input name="ville" class="col-md-8"></input><br/>
+							<!--Ville: <input name="ville" class="col-md-8"/><br/>-->
 
 						<!--totalFacture: <input name="totalFacture" class="col-md-8"></input><br/>-->
-                        <button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>
-                        <button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>
-                        <button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>
+                        <!--<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>-->
+                        <!--<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>-->
+                        <!--<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>-->
+
+                        <div class="col-md-12 row">
+                            <!-- Informations -->
+                            <div class="card col-md-5">
+                                <div class="card-header">
+                                    <h4 class="card-title pull-left">Informations</h4>
+                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockInformations" aria-expanded="true" aria-controls="blockInformations">
+                                        <span class='webix_icon fa-angle-down'></span>
+                                    </button>
+                                </div>
+                                <div class="card-block collapse show" id="blockInformations">
+                                    <div id="divGeneralInformations"></div>
+                                </div>
+                            </div>
+
+                            <!-- Adresse -->
+                            <div class="card col-md-5 ml-1">
+                                <div class="card-header">
+                                    <h4 class="card-title pull-left">Adresse</h4>
+                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockAdresse" aria-expanded="true" aria-controls="blockAdresse">
+                                        <span class='webix_icon fa-angle-down'></span>
+                                    </button>
+                                </div>
+                                <div class="card-block collapse show" id="blockAdresse">
+                                    <div id="divGeneralAdresse"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row">
+                            <!-- Coordonnées -->
+                            <div class="card col-md-5">
+                                <div class="card-header">
+                                    <h4 class="card-title pull-left">Coordonnées</h4>
+                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockCoordonnees" aria-expanded="true" aria-controls="blockCoordonnees">
+                                        <span class='webix_icon fa-angle-down'></span>
+                                    </button>
+                                </div>
+                                <div class="card-block collapse show" id="blockCoordonnees">
+                                    <div id="divGeneralCoordonnees"></div>
+                                </div>
+                            </div>
+
+                            <!-- Paiement -->
+                            <div class="card col-md-5 ml-1">
+                                <div class="card-header">
+                                    <h4 class="card-title pull-left">Paiement</h4>
+                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockPaiement" aria-expanded="true" aria-controls="blockPaiement">
+                                        <span class='webix_icon fa-angle-down'></span>
+                                    </button>
+                                </div>
+                                <div class="card-block collapse show" id="blockPaiement">
+                                    <div id="divGeneralPaiement"></div>
+                                </div>
+                            </div>
+                        </div>
 					</div>
 
 					<!--Onglet Contacts-->
@@ -138,21 +194,47 @@
 
 			webix.ready(function(){
 				var idClient = getUrlVariable('client_id', window.location.href);
-//				var clientForm = [
-//					{ view:"text", label:"Name", name:"name", width: 500, css:"bg_success"},
-//					{ view:"text",  label:"Adresse", name:"address", width: 500},
-//					{ view:"button",  name:"submit", value:"Submit", css:"button_success button_raised", width:200, click:function(){
-//						var form = this.getParentView();
-//						webix.ajax().post("http://"+serverIP+":9090/textma/teClients", form.getValues(), function(text, data, xhr){ });
-//					}}
-//				];
-
 
 				// Onglet Général
+                // Informations
                 webix.ui({
-                    view:"htmlform",
-					id:"clientForm",
-					content: "clientFormDiv",
+                    view:"form",  id:"sets", container: "divGeneralInformations", complexData:true,
+                    elements:[
+                        { label:"Code client", view:"text", name:"codeClient" },
+                        { label:"Société", view:"text", name:"nom",},
+                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"},
+                        { label:"Form juridique", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"}
+                    ],
+                    url: "http://"+serverIP+":9090/textma/teClients/"+idClient
+                });
+                // Adresse
+                webix.ui({
+                    view:"form",  id:"sets", container: "divGeneralAdresse", complexData:true,
+                    elements:[
+                        { label:"Code client", view:"text", name:"codeClient" },
+                        { label:"Société", view:"text", name:"nom",},
+                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"}
+                    ],
+                    url: "http://"+serverIP+":9090/textma/teClients/"+idClient
+                });
+                // Coordonnées
+                webix.ui({
+                    view:"form",  id:"sets", container: "divGeneralCoordonnees", complexData:true,
+                    elements:[
+                        { label:"Code client", view:"text", name:"codeClient" },
+                        { label:"Société", view:"text", name:"nom",},
+                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"}
+                    ],
+                    url: "http://"+serverIP+":9090/textma/teClients/"+idClient
+                });
+                // Paiement
+                webix.ui({
+                    view:"form",  id:"sets", container: "divGeneralPaiement", width:300, complexData:true,
+                    elements:[
+                        { label:"Code client", view:"text", name:"codeClient" },
+                        { label:"Société", view:"text", name:"nom",},
+                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"}
+                    ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
 
@@ -240,10 +322,10 @@
                     },
                 });
 
-                $$("treeRemiseFilterInput").attachEvent("onTimedKeyPress",function(){
-                    console.log($("#treeRemiseFilterInput")[0].value);
-                    treeRemise.filter("#value#",$("#treeRemiseFilterInput")[0].value);
-                });
+//                $$("treeRemiseFilterInput").attachEvent("onTimedKeyPress",function(){
+//                    console.log($("#treeRemiseFilterInput")[0].value);
+//                    treeRemise.filter("#value#",$("#treeRemiseFilterInput")[0].value);
+//                });
 
                 // Grid sous clients
                 gridSousClients = webix.ui({
