@@ -13,7 +13,6 @@ function getServerIp() {
     return host.split(":")[0];
 }
 
-
 function formatDatetime(value) {
     //2015-07-12T22:00:00.000+0000
     values = value.split("T");
