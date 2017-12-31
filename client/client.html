@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="../include/css/bootstrap.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="../include/css/webix.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="../include/css/client.css" type="text/css" charset="utf-8">
 
 		<script src="../include/js/tether.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/jquery.js" type="text/javascript" charset="utf-8"></script>
@@ -323,13 +324,13 @@
                     minHeight:"50%",
                     template:"{common.icon()} {common.folder()} <span>#value#</span>",
                     url: "http://"+serverIP+":9090/textma/remise/"+idClient,
-                    on: {
-                        onAfterSelect: function (id) {
-                            url = "http://"+serverIP+":9090/textma/remise/"+idClient+"/"+id;
-                            console.log(url);
-                            treeRemise.load(url);
-						}
-                    },
+//                    on: {
+//                        onAfterSelect: function (id) {
+//                            url = "http://"+serverIP+":9090/textma/remise/"+idClient+"/"+id;
+//                            console.log(url);
+//                            treeRemise.load(url);
+//						}
+//                    },
                 });
 
 //                $$("treeRemiseFilterInput").attachEvent("onTimedKeyPress",function(){
