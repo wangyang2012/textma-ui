@@ -55,12 +55,6 @@
 
 					<!--Onglet Général-->
 					<div role="tabpanel" class="tab-pane active" id="general">
-
-
-							<!--Adresse: <input name="adresse" class="col-md-8"/><br/>-->
-							<!--CP: <input name="codepostal" class="col-md-8"></input><br/>-->
-							<!--Ville: <input name="ville" class="col-md-8"/><br/>-->
-
 						<!--totalFacture: <input name="totalFacture" class="col-md-8"></input><br/>-->
                         <!--<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>-->
                         <!--<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>-->
@@ -141,6 +135,8 @@
 						<div id="treeRemiseDiv">
                         	<div id="treeRemise"></div>
 						</div>
+						<!--https://docs.webix.com/desktop__edit.html-->
+						<!--https://docs.webix.com/desktop__data_binding.html-->
 					</div>
 
 					<!--Onglet Observations-->
@@ -336,11 +332,6 @@
 //                    },
                 });
 
-//                $$("treeRemiseFilterInput").attachEvent("onTimedKeyPress",function(){
-//                    console.log($("#treeRemiseFilterInput")[0].value);
-//                    treeRemise.filter("#value#",$("#treeRemiseFilterInput")[0].value);
-//                });
-
                 // Grid sous clients
                 gridSousClients = webix.ui({
                     container:"gridSousClients",
@@ -488,6 +479,13 @@
 
 				}
 			}
+
+//            function save() {
+//                var values = $$("form1").getValues();
+//                webix.ajax().post("server/form_save.php", values, function() {
+//                    webix.message({ type:"debug", text:"Film is saved", expire:-1});
+//                });
+//            }
 		</script>
 	</body>
 </html>
