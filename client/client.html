@@ -137,7 +137,7 @@
 
 					<!--Onglet Remise-->
 					<div role="tabpanel" class="tab-pane" id="remises" style="height: 800px;overflow: auto;">
-						<input id="treeRemiseFilterInput"/>
+						<input id="treeRemiseFilterInput" onkeyup="filterTree(this.value)"/>
 						<div id="treeRemiseDiv">
                         	<div id="treeRemise"></div>
 						</div>
@@ -323,6 +323,9 @@
                     width:"90%",
                     minHeight:"50%",
                     template:"{common.icon()} {common.folder()} <span>#value#</span>",
+                    filterMode:{
+                        level:4
+                    },
                     url: "http://"+serverIP+":9090/textma/remise/"+idClient,
 //                    on: {
 //                        onAfterSelect: function (id) {
@@ -476,6 +479,15 @@
                 });
 			});
 
+			function filterTree(value) {
+			    if (value.length > 2) {
+                    treeRemise.filter("#value#", value);
+                } else if(value.length == 0) {
+			        treeRemise.filter("#value#", "");
+			        treeRemise.closeAll();
+
+				}
+			}
 		</script>
 	</body>
 </html>
