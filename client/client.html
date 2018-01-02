@@ -240,7 +240,9 @@
                         { label:"Mode de paiement", view:"richselect", options:"http://"+serverIP+":9090/textma/modePaiements", name:"modePaiement.id"},
                         { label:"Représentant", view:"richselect", options:"http://"+serverIP+":9090/textma/representants", name:"representant.id"},
                         { label:"Société", view:"text", name:"nom",},
-                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"}
+                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"},
+						{ label: "Fermé", view:"checkbox", name:"ferme"},
+                        { label: "Surveiller société.com", view:"checkbox", id:"field_b", value:1}
                     ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
