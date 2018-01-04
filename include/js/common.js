@@ -21,6 +21,8 @@ function formatDatetime(value) {
 
 webix.ready(function () {
 
+    $( ".draggable" ).draggable();
+
     serverIP = getServerIp();
 
     webix.ui({

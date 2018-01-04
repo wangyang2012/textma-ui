@@ -10,6 +10,7 @@
 
 		<script src="../include/js/tether.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../include/js/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/webix.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../include/js/skin.js" type="text/javascript" charset="utf-8"></script>
@@ -60,11 +61,11 @@
                         <!--<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>-->
                         <!--<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>-->
 
-                        <div class="col-md-12 row">
+                        <!--<div class="col-md-12 row">-->
                             <!-- Informations -->
-                            <div class="card col-md-5">
+                            <div class="card col-md-6 pull-left draggable">
                                 <div class="card-header">
-                                    <h4 class="card-title pull-left">Informations</h4>
+                                    <h4 class="card-title">Informations</h4>
                                     <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockInformations" aria-expanded="true" aria-controls="blockInformations">
                                         <span class='webix_icon fa-angle-down'></span>
                                     </button>
@@ -75,9 +76,9 @@
                             </div>
 
                             <!-- Adresse -->
-                            <div class="card col-md-5 ml-1">
+                            <div class="card col-md-6 pull-right draggable">
                                 <div class="card-header">
-                                    <h4 class="card-title pull-left">Adresse</h4>
+                                    <h4 class="card-title">Adresse</h4>
                                     <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockAdresse" aria-expanded="true" aria-controls="blockAdresse">
                                         <span class='webix_icon fa-angle-down'></span>
                                     </button>
@@ -86,13 +87,26 @@
                                     <div id="divGeneralAdresse"></div>
                                 </div>
                             </div>
-                        </div>
+                        <!--</div>-->
 
-                        <div class="col-md-12 row">
+                        <!--<div class="col-md-12 row">-->
+
+						<!-- Paiement -->
+						<div class="card col-md-6 pull-right draggable">
+							<div class="card-header">
+								<h4 class="card-title">Paiement</h4>
+								<button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockPaiement" aria-expanded="true" aria-controls="blockPaiement">
+									<span class='webix_icon fa-angle-down'></span>
+								</button>
+							</div>
+							<div class="card-block collapse show" id="blockPaiement">
+								<div id="divGeneralPaiement"></div>
+							</div>
+						</div>
                             <!-- Coordonnées -->
-                            <div class="card col-md-5">
+                            <div class="card col-md-6 pull-left draggable">
                                 <div class="card-header">
-                                    <h4 class="card-title pull-left">Coordonnées</h4>
+                                    <h4 class="card-title">Coordonnées</h4>
                                     <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockCoordonnees" aria-expanded="true" aria-controls="blockCoordonnees">
                                         <span class='webix_icon fa-angle-down'></span>
                                     </button>
@@ -102,19 +116,7 @@
                                 </div>
                             </div>
 
-                            <!-- Paiement -->
-                            <div class="card col-md-5 ml-1">
-                                <div class="card-header">
-                                    <h4 class="card-title pull-left">Paiement</h4>
-                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockPaiement" aria-expanded="true" aria-controls="blockPaiement">
-                                        <span class='webix_icon fa-angle-down'></span>
-                                    </button>
-                                </div>
-                                <div class="card-block collapse show" id="blockPaiement">
-                                    <div id="divGeneralPaiement"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <!--</div>-->
 					</div>
 
 					<!--Onglet Contacts-->
