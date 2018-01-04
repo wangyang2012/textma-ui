@@ -51,50 +51,42 @@
 
 		<!-- Tab panes -->
 		<div id="clientFormDiv">
-			<form class="myform">
+			<form class="myform" id="clientForm">
 				<div class="tab-content">
 
 					<!--Onglet Général-->
 					<div role="tabpanel" class="tab-pane active" id="general">
-						<!--totalFacture: <input name="totalFacture" class="col-md-8"></input><br/>-->
-                        <!--<button class="bg_danger col-md-2" onclick="document.location='client.html'"><span class="mif-plus"></span> Création</button>-->
-                        <!--<button class="bg_warning col-md-5" onclick="document.location='client.html'"><span class="mif-play"></span> Modification </button>-->
-                        <!--<button class="button bg_info col-md-3" onclick="document.location='client.html'"><span class="mif-loop2"></span> Duplication</button>-->
 
-                        <!--<div class="col-md-12 row">-->
-                            <!-- Informations -->
-                            <div class="card col-md-6 pull-left draggable">
-                                <div class="card-header">
-                                    <h4 class="card-title">Informations</h4>
-                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockInformations" aria-expanded="true" aria-controls="blockInformations">
-                                        <span class='webix_icon fa-angle-down'></span>
-                                    </button>
-                                </div>
-                                <div class="card-block collapse show" id="blockInformations">
-                                    <div id="divGeneralInformations"></div>
-                                </div>
+                        <!-- Informations -->
+                        <div class="card col-md-6 pull-left draggable">
+                            <div class="card-header">
+                                <h4 class="card-title pull-left">Informations</h4>
+                                <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockInformations" aria-expanded="true" aria-controls="blockInformations">
+                                    <span class='webix_icon fa-angle-down'></span>
+                                </button>
                             </div>
-
-                            <!-- Adresse -->
-                            <div class="card col-md-6 pull-right draggable">
-                                <div class="card-header">
-                                    <h4 class="card-title">Adresse</h4>
-                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockAdresse" aria-expanded="true" aria-controls="blockAdresse">
-                                        <span class='webix_icon fa-angle-down'></span>
-                                    </button>
-                                </div>
-                                <div class="card-block collapse show" id="blockAdresse">
-                                    <div id="divGeneralAdresse"></div>
-                                </div>
+                            <div class="card-block collapse show" id="blockInformations">
+                                <div id="divGeneralInformations"></div>
                             </div>
-                        <!--</div>-->
+                        </div>
 
-                        <!--<div class="col-md-12 row">-->
+                        <!-- Adresse -->
+                        <div class="card col-md-6 pull-right draggable">
+                            <div class="card-header">
+                                <h4 class="card-title pull-left">Adresse</h4>
+                                <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockAdresse" aria-expanded="true" aria-controls="blockAdresse">
+                                    <span class='webix_icon fa-angle-down'></span>
+                                </button>
+                            </div>
+                            <div class="card-block collapse show" id="blockAdresse">
+                                <div id="divGeneralAdresse"></div>
+                            </div>
+                        </div>
 
 						<!-- Paiement -->
 						<div class="card col-md-6 pull-right draggable">
 							<div class="card-header">
-								<h4 class="card-title">Paiement</h4>
+								<h4 class="card-title pull-left">Paiement</h4>
 								<button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockPaiement" aria-expanded="true" aria-controls="blockPaiement">
 									<span class='webix_icon fa-angle-down'></span>
 								</button>
@@ -103,20 +95,25 @@
 								<div id="divGeneralPaiement"></div>
 							</div>
 						</div>
-                            <!-- Coordonnées -->
-                            <div class="card col-md-6 pull-left draggable">
-                                <div class="card-header">
-                                    <h4 class="card-title">Coordonnées</h4>
-                                    <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockCoordonnees" aria-expanded="true" aria-controls="blockCoordonnees">
-                                        <span class='webix_icon fa-angle-down'></span>
-                                    </button>
-                                </div>
-                                <div class="card-block collapse show" id="blockCoordonnees">
-                                    <div id="divGeneralCoordonnees"></div>
-                                </div>
-                            </div>
 
-                        <!--</div>-->
+                        <!-- Coordonnées -->
+                        <div class="card col-md-6 pull-left draggable">
+                            <div class="card-header">
+                                <h4 class="card-title pull-left">Coordonnées</h4>
+                                <button class="btn btn-primary pull-right" type="button" data-toggle="collapse" data-target="#blockCoordonnees" aria-expanded="true" aria-controls="blockCoordonnees">
+                                    <span class='webix_icon fa-angle-down'></span>
+                                </button>
+                            </div>
+                            <div class="card-block collapse show" id="blockCoordonnees">
+                                <div id="divGeneralCoordonnees"></div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-secondary bg_info" onclick="document.location='te_client_list.html'"> Retour </button>
+                            <button type="button" class="btn btn-secondary bg_danger ml-1" onclick="document.location='client.html'"> Supprimer </button>
+                            <button type="button" class="btn btn-secondary bg_warning ml-1" onclick="save()"> Enregistrer </button>
+                        </div>
 					</div>
 
 					<!--Onglet Contacts-->
@@ -194,10 +191,17 @@
 			webix.ready(function(){
 				var idClient = getUrlVariable('client_id', window.location.href);
 
+				// form
+                webix.ui({
+                    container: "clientFormDiv",
+                    view:"htmlform",
+                    id:"clientForm"
+                });
+
 				// Onglet Général
                 // Informations
                 webix.ui({
-                    view:"form",  id:"sets", container: "divGeneralInformations", complexData:true,
+                    view:"form",  id:"clientForm", container: "divGeneralInformations", complexData:true,
                     elements:[
                         { label:"Code client", view:"text", name:"codeClient" },
                         { label:"Société", view:"text", name:"nom"},
@@ -206,7 +210,8 @@
                         { label:"N° TVA", view:"text", name:"numeroTva"},
                         { label:"SIRET", view:"text", name:"siret"},
                         { label:"RCS", view:"text", name:"rcs"},
-                        { label:"Ouverture de compte", view:"text", name:"ouvertureCompte"}
+                        { label:"Ouverture de compte", view:"text", name:"ouvertureCompte"},
+                        { label:"Total factures", view:"text", name:"totalFacture", disabled:true}
                     ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
@@ -490,12 +495,11 @@
 				}
 			}
 
-//            function save() {
-//                var values = $$("form1").getValues();
-//                webix.ajax().post("server/form_save.php", values, function() {
-//                    webix.message({ type:"debug", text:"Film is saved", expire:-1});
-//                });
-//            }
+			function save() {
+				var values = $$("clientForm").getValues();
+				console.log(values);
+            }
+
 		</script>
 	</body>
 </html>
