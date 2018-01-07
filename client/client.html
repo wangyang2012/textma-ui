@@ -201,12 +201,12 @@
 				// Onglet Général
                 // Informations
                 webix.ui({
-                    view:"form",  id:"clientForm", container: "divGeneralInformations", complexData:true,
+                    view:"form",  id:"informationsForm", container: "divGeneralInformations", complexData:true,
                     elements:[
                         { label:"Code client", view:"text", name:"codeClient" },
                         { label:"Société", view:"text", name:"nom"},
                         { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"},
-                        { label:"Form juridique", view:"richselect", options:"http://"+serverIP+":9090/textma/formeJuridiques", name:"formeJuridique.id"},
+                        { label:"Forme juridique", view:"richselect", options:"http://"+serverIP+":9090/textma/formeJuridiques", name:"formeJuridique.id"},
                         { label:"N° TVA", view:"text", name:"numeroTva"},
                         { label:"SIRET", view:"text", name:"siret"},
                         { label:"RCS", view:"text", name:"rcs"},
@@ -217,7 +217,7 @@
                 });
                 // Adresse
                 webix.ui({
-                    view:"form",  id:"sets", container: "divGeneralAdresse", complexData:true,
+                    view:"form",  id:"adressesForm", container: "divGeneralAdresse", complexData:true,
                     elements:[
                         { label:"Adresse", view:"text", name:"adresse"},
                         { label:"Code postal", view:"text", name:"codePostal"},
@@ -231,7 +231,7 @@
                 });
                 // Coordonnées
                 webix.ui({
-                    view:"form",  id:"sets", container: "divGeneralCoordonnees", complexData:true,
+                    view:"form",  id:"coordonneesForm", container: "divGeneralCoordonnees", complexData:true,
                     elements:[
                         { label:"Téléphone", view:"text", name:"telephone" },
                         { label:"Télécopie", view:"text", name:"fax"},
@@ -242,12 +242,10 @@
                 });
                 // Paiement
                 webix.ui({
-                    view:"form",  id:"sets", container: "divGeneralPaiement", complexData:true,
+                    view:"form",  id:"paiementForm", container: "divGeneralPaiement", complexData:true,
                     elements:[
                         { label:"Mode de paiement", view:"richselect", options:"http://"+serverIP+":9090/textma/modePaiements", name:"modePaiement.id"},
                         { label:"Représentant", view:"richselect", options:"http://"+serverIP+":9090/textma/representants", name:"representant.id"},
-                        { label:"Société", view:"text", name:"nom"},
-                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"},
                         { label:"Escompte(%)", view:"text", name:"escompte"},
                         { label:"Solde du", view:"text", name:"soldeDu", disabled:true},
                         { label: "Virement", view:"checkbox", name:"virement"},
@@ -496,8 +494,16 @@
 			}
 
 			function save() {
-				var values = $$("clientForm").getValues();
-				console.log(values);
+				var informationValues = $$("informationsForm").getValues();
+                var adresseValues = $$("adressesForm").getValues();
+                var coordonneeValues = $$("coordonneesForm").getValues();
+                var paiementValues = $$("paiementForm").getValues();
+
+                var clientObject = {id: informationValues.id, codeClient: informationValues.codeClient, nom: informationValues.nom, famille:informationValues.famille, formeJuridique: informationValues.formeJuridique, numeroTva: informationValues.numeroTva, siret: informationValues.siret, rcs: informationValues.rcs, ouvertureCompte: informationValues.ouvertureCompte, totalFacture: informationValues.totalFacture, telephone: coordonneeValues.telephone, telecopie: coordonneeValues.fax, email: coordonneeValues.email, url: coordonneeValues.url,
+					adresse: adresseValues.adresse, codePostal: adresseValues.codePostal, ville: adresseValues.ville, pays: adresseValues.pays, modePaiement: paiementValues.modePaiement, representant: paiementValues.representant,
+                    escompte: paiementValues.escompte, soldeDu: paiementValues.soldeDu, virement: paiementValues.virement, surveillanceSocieteCom: paiementValues.surveillanceSocieteCom, mauvaisPayeur:paiementValues.mauvaisPayeur,
+					bloque: paiementValues.bloqué, ferme: paiementValues.ferme};
+                console.log("object: ", clientObject);
             }
 
 		</script>
