@@ -51,7 +51,7 @@
 
 		<!-- Tab panes -->
 		<div id="clientFormDiv">
-			<form class="myform" id="clientForm">
+			<form class="myform" id="clientForm" >
 				<div class="tab-content">
 
 					<!--Onglet Général-->
@@ -501,9 +501,14 @@
 
                 var clientObject = {id: informationValues.id, codeClient: informationValues.codeClient, nom: informationValues.nom, famille:informationValues.famille, formeJuridique: informationValues.formeJuridique, numeroTva: informationValues.numeroTva, siret: informationValues.siret, rcs: informationValues.rcs, ouvertureCompte: informationValues.ouvertureCompte, totalFacture: informationValues.totalFacture, telephone: coordonneeValues.telephone, telecopie: coordonneeValues.fax, email: coordonneeValues.email, url: coordonneeValues.url,
 					adresse: adresseValues.adresse, codePostal: adresseValues.codePostal, ville: adresseValues.ville, pays: adresseValues.pays, modePaiement: paiementValues.modePaiement, representant: paiementValues.representant,
-                    escompte: paiementValues.escompte, soldeDu: paiementValues.soldeDu, virement: paiementValues.virement, surveillanceSocieteCom: paiementValues.surveillanceSocieteCom, mauvaisPayeur:paiementValues.mauvaisPayeur,
+                    escompte: paiementValues.escompte, soldeDu: 0, virement: paiementValues.virement, surveillanceSocieteCom: paiementValues.surveillanceSocieteCom, mauvaisPayeur:paiementValues.mauvaisPayeur,
 					bloque: paiementValues.bloque, ferme: paiementValues.ferme};
-                console.log("object: ", clientObject);
+//                	webix.send("http://"+serverIP+":9090/textma/teClients", clientObject);
+					webix.ajax().headers({
+                        "Content-type": "application/json"
+                    }).put("http://"+serverIP+":9090/textma/teClients", clientObject, function(text, data, xhr){
+						console.log("ok");
+					});
             }
 
 		</script>
