@@ -25,6 +25,7 @@
         <input type="text" class="col-md-6 form-control" id='myfilter' onkeypress="inputing(event)">
         <input type="button" class="btn bg_primary button_raised col-md-2 ml-1 mr-1" value='chercher' onclick='search();'>
         <button class="btn ml-1 bg_success" onclick="showHideColumnMenu()" title="Masquer colonnes"><span class='webix_icon fa-bars'></span></button>
+        <button class="btn ml-1 bg_primary" onclick="createNewClient()" title="Nouveau client"><span class='webix_icon fa-plus'></span></button>
         <input id="showInOnePage" type="checkbox" class="switch_1 ml-1" title="Afficher en une seule page" onchange="search()">
         <input id="sortByFacture" type="checkbox" class="switch_1 ml-1" title="Tri par factures" onchange="search()">
     </div>
@@ -38,6 +39,10 @@
         if (e.keyCode == 13) {
             search();
         }
+    }
+
+    function createNewClient() {
+        window.location.href = "client.html?client_id=-1";
     }
 
     function search() {
