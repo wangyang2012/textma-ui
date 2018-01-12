@@ -130,10 +130,16 @@
 
 					<!--Onglet Remise-->
 					<div role="tabpanel" class="tab-pane" id="remises" style="height: 800px;overflow: auto;">
-						<input id="treeRemiseFilterInput" onkeyup="filterTree(this.value)"/>
-						<div id="treeRemiseDiv">
-                        	<div id="treeRemise"></div>
+						<div class="row">
+							<div class="col-md-6">
+								<input id="treeRemiseFilterInput" onkeyup="filterTree(this.value)"/>
+								<div id="treeRemiseDiv">
+									<div id="treeRemise"></div>
+								</div>
+							</div>
+							<div class="col-md-6" id="formRemiseDiv"></div>
 						</div>
+
 						<!--https://docs.webix.com/desktop__edit.html-->
 						<!--https://docs.webix.com/desktop__data_binding.html-->
 					</div>
@@ -323,27 +329,39 @@
 
 
 				// Onglet Remise
+                formRemise = webix.ui({
+                    container:"formRemiseDiv",
+                    complexData:true,
+                    view:"form",
+                    minWidth: "400",
+                    elements:[
+                        { label:"Libellé", view:"text", name:"libelle" },
+                        { label:"Pourcentage", view:"text", name:"pourcentage"},
+                        { label:"Prix remisé", view:"text", name:"prix"}
+                    ],
+                });
 
                 treeRemise = webix.ui({
                     container:"treeRemise",
 					id:"treeRemise",
                     view:"tree",
                     select:true,
-                    width:"90%",
+                    minWidth:"400",
                     minHeight:"50%",
                     template:"{common.icon()} {common.folder()} <span>#value#</span>",
                     filterMode:{
                         level:4
                     },
                     url: "http://"+serverIP+":9090/textma/remise/"+idClient,
-//                    on: {
-//                        onAfterSelect: function (id) {
-//                            url = "http://"+serverIP+":9090/textma/remise/"+idClient+"/"+id;
-//                            console.log(url);
-//                            treeRemise.load(url);
-//						}
-//                    },
+                    on: {
+                        onAfterSelect: function (id) {
+                            url = "http://"+serverIP+":9090/textma/remise/"+idClient+"/"+id;
+                            console.log(url);
+                            formRemise.load(url);
+						}
+                    },
                 });
+
 
                 // Grid sous clients
                 gridSousClients = webix.ui({
