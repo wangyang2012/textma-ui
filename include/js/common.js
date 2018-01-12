@@ -19,6 +19,14 @@ function formatDatetime(value) {
     return values[0];
 }
 
+function messageAlert(title, text, callback) {
+    webix.alert({
+        title:title,
+        text: text,
+        callback: callback
+    });
+}
+
 webix.ready(function () {
 
     $( ".draggable" ).draggable();

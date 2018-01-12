@@ -517,7 +517,7 @@
                 var coordonneeValues = $$("coordonneesForm").getValues();
                 var paiementValues = $$("paiementForm").getValues();
 
-                var clientObject = {id: informationValues.id, codeClient: informationValues.codeClient, nom: informationValues.nom, famille:informationValues.famille, formeJuridique: informationValues.formeJuridique, numeroTva: informationValues.numeroTva, siret: informationValues.siret, rcs: informationValues.rcs, ouvertureCompte: informationValues.ouvertureCompte, totalFacture: informationValues.totalFacture, telephone: coordonneeValues.telephone, telecopie: coordonneeValues.fax, email: coordonneeValues.email, url: coordonneeValues.url,
+                var clientObject = {id: informationValues.id, codeClient: informationValues.codeClient, nom: informationValues.nom, famille:informationValues.famille, formeJuridique: informationValues.formeJuridique, numeroTva: informationValues.numeroTva, siret: informationValues.siret, rcs: informationValues.rcs, ouvertureCompte: informationValues.ouvertureCompte, totalFacture: informationValues.totalFacture, telephone: coordonneeValues.telephone, fax: coordonneeValues.fax, email: coordonneeValues.email, url: coordonneeValues.url,
 					adresse: adresseValues.adresse, codePostal: adresseValues.codePostal, ville: adresseValues.ville, pays: adresseValues.pays, modePaiement: paiementValues.modePaiement, representant: paiementValues.representant,
                     escompte: paiementValues.escompte, soldeDu: 0, virement: paiementValues.virement, surveillanceSocieteCom: paiementValues.surveillanceSocieteCom, mauvaisPayeur:paiementValues.mauvaisPayeur,
 					bloque: paiementValues.bloque, ferme: paiementValues.ferme};
@@ -525,7 +525,9 @@
 					webix.ajax().headers({
                         "Content-type": "application/json"
                     }).put("http://"+serverIP+":9090/textma/teClients", clientObject, function(text, data, xhr){
-						console.log("ok");
+                        messageAlert("Enregistrement", "L'enregistrement réussi!", function(){
+                            document.location='te_client_list.html';
+                        });
 					});
             }
 
