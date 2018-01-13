@@ -111,7 +111,7 @@
 
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-secondary bg_info" onclick="document.location='te_client_list.html'"> Retour </button>
-                            <button type="button" class="btn btn-secondary bg_danger ml-1" onclick="document.location='client.html'"> Supprimer </button>
+                            <button type="button" class="btn btn-secondary bg_danger ml-1" onclick="deleteClient()"> Supprimer </button>
                             <button type="button" class="btn btn-secondary bg_warning ml-1" onclick="save()"> Enregistrer </button>
                         </div>
 					</div>
@@ -194,8 +194,9 @@
 
 		<script type="text/javascript" charset="utf-8">
 
-			webix.ready(function(){
-				var idClient = getUrlVariable('client_id', window.location.href);
+            idClient = getUrlVariable('client_id', window.location.href);
+
+            webix.ready(function(){
 
 				// form
                 webix.ui({
@@ -532,6 +533,16 @@
                         });
 					});
             }
+
+            function deleteClient() {
+                webix.ajax().del("http://"+serverIP+":9090/textma/teClients/"+idClient, function(text, data, xhr){
+                    if (data == "ok") {
+                        messageAlert("Suppression", "La suppression du client est réussie!", function(){
+                            document.location='te_client_list.html';
+                        });
+					}
+                });
+			}
 
 		</script>
 	</body>
