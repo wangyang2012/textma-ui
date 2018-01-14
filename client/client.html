@@ -231,7 +231,7 @@
                         { label:"Ville", view:"text", name:"ville"},
                         { label:"Pays", view:"text", name:"pays"},
 						{ value:"Transférer en adresse de livraison", view:"button", click: function() {
-						    console.log("Transfering to delivry address");
+                            transfertToDeliveryAddress();
 						}}
                     ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
@@ -533,6 +533,17 @@
                         });
 					});
             }
+
+            function transfertToDeliveryAddress() {
+                var adresseValues = $$("adressesForm").getValues();
+                webix.ajax().headers({
+                    "Content-type": "application/json"
+                }).post("http://"+serverIP+":9090/textma/teAdresses/"+idClient, adresseValues, function(text, data, xhr){
+                    if (data == "ok") {
+                        messageAlert("Transfert", "L'adresse est bien transférée en adresse de livraison.");
+                    }
+                });
+			}
 
             function deleteClient() {
                 webix.ajax().del("http://"+serverIP+":9090/textma/teClients/"+idClient, function(text, data, xhr){
