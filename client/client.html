@@ -119,7 +119,10 @@
 					<!--Onglet Contacts-->
 					<div role="tabpanel" class="tab-pane" id="contacts">
 						<div id="gridContacts"></div>
-						<div id="pagerContacts"></div>
+						<div class="row col-md-12">
+							<div id="pagerContacts" class="col-md-10"></div>
+							<button type="button" class="btn btn-secondary bg_primary col-md-2" onclick="createNewContact()"> Nouveau contact </button>
+						</div>
 					</div>
 
 					<!--Onglet Adresses livraison-->
@@ -222,6 +225,7 @@
                     ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
+
                 // Adresse
                 webix.ui({
                     view:"form",  id:"adressesForm", container: "divGeneralAdresse", complexData:true,
@@ -296,8 +300,54 @@
                         size: 20,
                         group: 8
                     },
-                    url: "http://"+serverIP+":9090/textma/teContacts/" + idClient
+					on: {
+                        onSelectChange: function () {
+                            showContactForm(gridContacts.getSelectedId(true).join());
+                        }
+					},
+                    url: "http://"+serverIP+":9090/textma/teContacts/client/" + idClient
                 });
+
+                // contactForm = webix.ui();
+                contactFormWindow = webix.ui({
+                    view:"window",
+                    id:"contactFormWindow",
+                    width:1000,
+                    position:"center",
+                    modal:true,
+                    // head:"Contact",
+                    head:{
+                        view:"toolbar", cols:[
+                            {view:"label", label: "Contact" },
+                            { view:"button", label: 'Fermer', width: 100, align: 'right', click:"$$('contactFormWindow').hide();"}
+                        ]
+                    },
+                    body:{
+                        view:"form",  id:"contactForm", complexData:true,
+                        width: 500,
+                        elements:[
+                            { label:"Id", view:"text", name:"id", labelWidth: 150},
+                            { label:"Civilité", view:"text", name:"civilite", labelWidth: 150},
+                            { label:"Nom", view:"text", name:"nom", labelWidth: 150},
+                            { label:"Prénom", view:"text", name:"prenom", labelWidth: 150},
+                            { label:"Fonction", view:"richselect", options:"http://"+serverIP+":9090/textma/teFonctionContacts", name:"fonction.id", labelWidth: 150},
+                            { label:"Email", view:"text", name:"email", labelWidth: 150},
+                            { label:"Portable", view:"text", name:"portable", labelWidth: 150},
+                            { label:"Téléphone", view:"text", name:"telephone", labelWidth: 150},
+                            { label:"Fax", view:"text", name:"fax", labelWidth: 150},
+                            { label:"Facturation", view:"checkbox", name:"facturation", labelWidth: 150},
+                            { label:"Logistique", view:"checkbox", name:"logistique", labelWidth: 150},
+                            { label:"Commercial", view:"checkbox", name:"commercial", labelWidth: 150},
+                            { label: "Enregistrer", view:"button", align: "right", click:"saveContactForm()"}
+                        ]
+                    }
+                });
+
+                function showContactForm(idContact){
+                    $$("contactForm").load("http://"+serverIP+":9090/textma/teContacts/"+idContact);
+                    contactFormWindow.show();
+                }
+
 
                 // Onglet Adresses livraison
                 gridLivraisons = webix.ui({
@@ -556,6 +606,24 @@
 					}
                 });
 			}
+
+            function createNewContact() {
+                $$('contactForm').clear();
+                contactFormWindow.show();
+            }
+
+            function saveContactForm() {
+                var contactFormValues = $$("contactForm").getValues();
+                webix.ajax().headers({
+                    "Content-type": "application/json"
+                }).put("http://"+serverIP+":9090/textma/teContacts", contactFormValues, function(text, data, xhr){
+                    messageAlert("Enregistrement", "L'enregistrement réussi!", function(){
+                        document.location='client.html?client_id='+idClient;
+                    });
+                });
+                contactFormWindow.hide();
+            }
+
 
 		</script>
 	</body>

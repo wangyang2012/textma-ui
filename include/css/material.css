@@ -1380,7 +1380,7 @@ label.webix_required:after{padding-left:4px;content:"*";color:red}
 .bg_panel,.webix_layout_material>.webix_view{box-shadow:0 0 8px rgba(0,0,0,.2);border-radius:2px}
 .bg_panel_raised{box-shadow:2px 2px 8px rgba(0,0,0,.3);border-radius:2px}
 .bg_clean,.webix_layout_material>.bg_clean,.webix_layout_material>.webix_resizer_vx,.webix_layout_material>.webix_resizer_vy{box-shadow:none}
-.webix_layout_toolbar.webix_toolbar{background:#fff}
+.webix_layout_toolbar.webix_toolbar{background:#4f8db7}
 .webix_layout_accordion .webix_accordionitem_header:hover{background:#e6e6e6}
 .webix_accordionitem.vertical>.webix_accordionitem_header .webix_accordionitem_button{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAABlBMVEUAAABUVFR8AzIeAAAAAXRSTlMAQObYZgAAABZJREFUCNdjgAMOBgYZBgY7BoZ6hBgAC3MA4lIw0B4AAAAASUVORK5CYII=);background-repeat:no-repeat}
 .webix_accordionitem.vertical.collapsed>.webix_accordionitem_header .webix_accordionitem_button{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAABlBMVEUAAABUVFR8AzIeAAAAAXRSTlMAQObYZgAAABZJREFUCNdjgIN6BgY7BgYZBgYOhBgAEAgA4ojunUoAAAAASUVORK5CYII=);background-repeat:no-repeat}
