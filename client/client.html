@@ -210,7 +210,7 @@
                 webix.ui({
                     view:"form",  id:"informationsForm", container: "divGeneralInformations", complexData:true,
                     elements:[
-                        { label:"Code client", view:"text", name:"codeClient" },
+                        { label:"Code client", view:"text", name:"codeClient", validate:webix.rules.isNumber },
                         { label:"Société", view:"text", name:"nom"},
                         { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"},
                         { label:"Forme juridique", view:"richselect", options:"http://"+serverIP+":9090/textma/formeJuridiques", name:"formeJuridique.id"},
@@ -252,8 +252,9 @@
                     view:"form",  id:"paiementForm", container: "divGeneralPaiement", complexData:true,
                     elements:[
                         { label:"Mode de paiement", view:"richselect", options:"http://"+serverIP+":9090/textma/modePaiements", name:"modePaiement.id"},
+                        { label:"Commercial interne", view:"richselect", options:"http://"+serverIP+":9090/textma/commercial_internes", name:"commercialInterne.id"},
                         { label:"Représentant", view:"richselect", options:"http://"+serverIP+":9090/textma/representants", name:"representant.id"},
-                        { label:"Escompte(%)", view:"text", name:"escompte"},
+                        { label:"Escompte(%)", view:"text", name:"escompte", validate:webix.rules.isNumber},
                         { label:"Solde du", view:"text", name:"soldeDu", disabled:true},
                         { label: "Virement", view:"checkbox", name:"virement"},
                         { label: "Surveillance société.com", view:"checkbox", name:"surveillanceSocieteCom"},
@@ -279,7 +280,7 @@
                         {id: "nom", sort: "server", header: "Nom", adjust: "data"},
                         {id: "prenom", sort: "server", header: "Prénom", adjust: "data"},
                         {id: "fonction", sort: "server", header: "Fonction", adjust: "data", format: function (value) {return value.nom;}},
-                        {id: "email", sort: "server", header: "Email", adjust: "data"},
+                        {id: "email", sort: "server", header: "Email", adjust: "data", validate:webix.rules.isEmail},
                         {id: "portable", sort: "server", header: "Portable", adjust: "data"},
                         {id: "telephone", sort: "server", header: "Téléphone", adjust: "data"},
                         {id: "fax", sort: "server", header: "Fax", adjust: "data"},
@@ -314,7 +315,7 @@
                         {id: "ville", sort: "server", header: "Ville", adjust: "data"},
                         {id: "telephone", sort: "server", header: "Téléphone", adjust: "head"},
                         {id: "fax", sort: "server", header: "Fax", adjust: "data"},
-                        {id: "email", sort: "server", header: "Email", adjust: "head"},
+                        {id: "email", sort: "server", header: "Email", adjust: "head", validate:webix.rules.isEmail},
                         {id: "observations", sort: "server", header: "Observations", adjust: "head"}
                     ],
                     autoConfig: true,
@@ -337,10 +338,10 @@
                     minWidth: "400",
                     elements:[
                         { label:"Libellé", view:"text", name:"libelle" },
-                        { label:"Remise", view:"text", name:"remise"},
-                        { label:"Prix remisé", view:"text", name:"prix"},
-                        { label:"Rotation Prix", view:"text", name:"reotationPrix"},
-                        { label:"Rotation PourcentagePourcentage", view:"text", name:"rotationPourcentage"}
+                        { label:"Remise(%)", view:"text", name:"remise"},
+                        { label:"Remise(€)", view:"text", name:"prix"},
+                        { label:"Rotation(%)", view:"text", name:"rotationPourcentage"},
+                        { label:"Rotation(€)", view:"text", name:"reotationPrix"}
                     ],
                 });
 
@@ -521,7 +522,7 @@
                 var paiementValues = $$("paiementForm").getValues();
 
                 var clientObject = {id: informationValues.id, codeClient: informationValues.codeClient, nom: informationValues.nom, famille:informationValues.famille, formeJuridique: informationValues.formeJuridique, numeroTva: informationValues.numeroTva, siret: informationValues.siret, rcs: informationValues.rcs, ouvertureCompte: informationValues.ouvertureCompte, totalFacture: informationValues.totalFacture, telephone: coordonneeValues.telephone, fax: coordonneeValues.fax, email: coordonneeValues.email, url: coordonneeValues.url,
-					adresse: adresseValues.adresse, codePostal: adresseValues.codePostal, ville: adresseValues.ville, pays: adresseValues.pays, modePaiement: paiementValues.modePaiement, representant: paiementValues.representant,
+					adresse: adresseValues.adresse, codePostal: adresseValues.codePostal, ville: adresseValues.ville, pays: adresseValues.pays, modePaiement: paiementValues.modePaiement, commercialInterne: paiementValues.commercialInterne, representant: paiementValues.representant,
                     escompte: paiementValues.escompte, soldeDu: 0, virement: paiementValues.virement, surveillanceSocieteCom: paiementValues.surveillanceSocieteCom, mauvaisPayeur:paiementValues.mauvaisPayeur,
 					bloque: paiementValues.bloque, ferme: paiementValues.ferme};
 //                	webix.send("http://"+serverIP+":9090/textma/teClients", clientObject);
@@ -539,15 +540,16 @@
                 webix.ajax().headers({
                     "Content-type": "application/json"
                 }).post("http://"+serverIP+":9090/textma/teAdresses/"+idClient, adresseValues, function(text, data, xhr){
-                    if (data == "ok") {
+                    if (text == "ok") {
                         messageAlert("Transfert", "L'adresse est bien transférée en adresse de livraison.");
+                        document.location='client.html?client_id='+idClient;
                     }
                 });
 			}
 
             function deleteClient() {
                 webix.ajax().del("http://"+serverIP+":9090/textma/teClients/"+idClient, function(text, data, xhr){
-                    if (data == "ok") {
+                    if (text == "ok") {
                         messageAlert("Suppression", "La suppression du client est réussie!", function(){
                             document.location='te_client_list.html';
                         });
