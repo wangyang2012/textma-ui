@@ -109,11 +109,11 @@
                             </div>
                         </div>
 
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-secondary bg_info" onclick="document.location='te_client_list.html'"> Retour </button>
-                            <button type="button" class="btn btn-secondary bg_danger ml-1" onclick="deleteClient()"> Supprimer </button>
-                            <button type="button" class="btn btn-secondary bg_warning ml-1" onclick="save()"> Enregistrer </button>
-                        </div>
+						<div class="btn-group draggable" role="group" aria-label="Basic example">
+							<button type="button" class="btn btn-secondary bg_info" onclick="document.location='te_client_list.html'"> Retour </button>
+							<button type="button" class="btn btn-secondary bg_danger ml-1" onclick="deleteClient()"> Supprimer </button>
+							<button type="button" class="btn btn-secondary bg_warning ml-1" onclick="save()"> Enregistrer </button>
+						</div>
 					</div>
 
 					<!--Onglet Contacts-->
@@ -210,15 +210,15 @@
                 webix.ui({
                     view:"form",  id:"informationsForm", container: "divGeneralInformations", complexData:true,
                     elements:[
-                        { label:"Code client", view:"text", name:"codeClient", validate:webix.rules.isNumber },
-                        { label:"Société", view:"text", name:"nom"},
-                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id"},
-                        { label:"Forme juridique", view:"richselect", options:"http://"+serverIP+":9090/textma/formeJuridiques", name:"formeJuridique.id"},
-                        { label:"N° TVA", view:"text", name:"numeroTva"},
-                        { label:"SIRET", view:"text", name:"siret"},
-                        { label:"RCS", view:"text", name:"rcs"},
-                        { label:"Ouverture de compte", view:"text", name:"ouvertureCompte"},
-                        { label:"Total factures", view:"text", name:"totalFacture", disabled:true}
+                        { label:"Code client", view:"text", name:"codeClient", validate:webix.rules.isNumber, labelWidth: 200},
+                        { label:"Société", view:"text", name:"nom", labelWidth: 200},
+                        { label:"Famille", view:"richselect", options:"http://"+serverIP+":9090/textma/teFamilleClients?count=1000", name:"famille.id", labelWidth: 200},
+                        { label:"Forme juridique", view:"richselect", options:"http://"+serverIP+":9090/textma/formeJuridiques", name:"formeJuridique.id", labelWidth: 200},
+                        { label:"N° TVA", view:"text", name:"numeroTva", labelWidth: 200},
+                        { label:"SIRET", view:"text", name:"siret", labelWidth: 200},
+                        { label:"RCS", view:"text", name:"rcs", labelWidth: 200},
+                        { label:"Ouverture de compte", view:"text", name:"ouvertureCompte", labelWidth: 200},
+                        { label:"Total factures", view:"text", name:"totalFacture", disabled:true, labelWidth: 200}
                     ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
@@ -226,10 +226,10 @@
                 webix.ui({
                     view:"form",  id:"adressesForm", container: "divGeneralAdresse", complexData:true,
                     elements:[
-                        { label:"Adresse", view:"text", name:"adresse"},
-                        { label:"Code postal", view:"text", name:"codePostal"},
-                        { label:"Ville", view:"text", name:"ville"},
-                        { label:"Pays", view:"text", name:"pays"},
+                        { label:"Adresse", view:"text", name:"adresse", labelWidth: 200},
+                        { label:"Code postal", view:"text", name:"codePostal", labelWidth: 200},
+                        { label:"Ville", view:"text", name:"ville", labelWidth: 200},
+                        { label:"Pays", view:"text", name:"pays", labelWidth: 200},
 						{ value:"Transférer en adresse de livraison", view:"button", click: function() {
                             transfertToDeliveryAddress();
 						}}
@@ -240,10 +240,10 @@
                 webix.ui({
                     view:"form",  id:"coordonneesForm", container: "divGeneralCoordonnees", complexData:true,
                     elements:[
-                        { label:"Téléphone", view:"text", name:"telephone" },
-                        { label:"Télécopie", view:"text", name:"fax"},
-                        { label:"Email", view:"text", name:"email"},
-                        { label:"Site web", view:"text", name:"url"}
+                        { label:"Téléphone", view:"text", name:"telephone", labelWidth: 200 },
+                        { label:"Télécopie", view:"text", name:"fax", labelWidth: 200},
+                        { label:"Email", view:"text", name:"email", labelWidth: 200},
+                        { label:"Site web", view:"text", name:"url", labelWidth: 200}
                     ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
@@ -251,16 +251,16 @@
                 webix.ui({
                     view:"form",  id:"paiementForm", container: "divGeneralPaiement", complexData:true,
                     elements:[
-                        { label:"Mode de paiement", view:"richselect", options:"http://"+serverIP+":9090/textma/modePaiements", name:"modePaiement.id"},
-                        { label:"Commercial interne", view:"richselect", options:"http://"+serverIP+":9090/textma/commercial_internes", name:"commercialInterne.id"},
-                        { label:"Représentant", view:"richselect", options:"http://"+serverIP+":9090/textma/representants", name:"representant.id"},
-                        { label:"Escompte(%)", view:"text", name:"escompte", validate:webix.rules.isNumber},
-                        { label:"Solde du", view:"text", name:"soldeDu", disabled:true},
-                        { label: "Virement", view:"checkbox", name:"virement"},
-                        { label: "Surveillance société.com", view:"checkbox", name:"surveillanceSocieteCom"},
-                        { label: "Mauvais payeur", view:"checkbox", name:"mauvaisPayeur"},
-                        { label: "Bloqué", view:"checkbox", name:"bloque"},
-						{ label: "Fermé", view:"checkbox", name:"ferme"}
+                        { label:"Mode de paiement", view:"richselect", options:"http://"+serverIP+":9090/textma/modePaiements", name:"modePaiement.id", labelWidth: 200},
+                        { label:"Commercial interne", view:"richselect", options:"http://"+serverIP+":9090/textma/commercial_internes", name:"commercialInterne.id", labelWidth: 200},
+                        { label:"Représentant", view:"richselect", options:"http://"+serverIP+":9090/textma/representants", name:"representant.id", labelWidth: 200},
+                        { label:"Escompte(%)", view:"text", name:"escompte", validate:webix.rules.isNumber, labelWidth: 200},
+                        { label:"Solde du", view:"text", name:"soldeDu", disabled:true, labelWidth: 200},
+                        { label: "Virement", view:"checkbox", name:"virement", labelWidth: 200},
+                        { label: "Surveillance société.com", view:"checkbox", name:"surveillanceSocieteCom", labelWidth: 200},
+                        { label: "Mauvais payeur", view:"checkbox", name:"mauvaisPayeur", labelWidth: 200},
+                        { label: "Bloqué", view:"checkbox", name:"bloque", labelWidth: 200},
+						{ label: "Fermé", view:"checkbox", name:"ferme", labelWidth: 200}
 
                     ],
                     url: "http://"+serverIP+":9090/textma/teClients/"+idClient
