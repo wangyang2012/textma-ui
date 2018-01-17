@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="../include/css/bootstrap.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="../include/css/webix.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="../include/css/material.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="../include/css/common.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="../include/css/client.css" type="text/css" charset="utf-8">
 
 		<script src="../include/js/tether.js" type="text/javascript" charset="utf-8"></script>
@@ -121,7 +122,7 @@
 						<div id="gridContacts"></div>
 						<div class="row col-md-12">
 							<div id="pagerContacts" class="col-md-10"></div>
-							<button type="button" class="btn btn-secondary bg_primary col-md-2" onclick="createNewContact()"> Nouveau contact </button>
+							<button type="button" class="btn btn-secondary bg_primary col-md-1" onclick="createNewContact()"> Nouveau contact </button>
 						</div>
 					</div>
 
@@ -312,7 +313,8 @@
                 contactFormWindow = webix.ui({
                     view:"window",
                     id:"contactFormWindow",
-                    width:1000,
+                    width:600,
+					autoheight:true,
                     position:"center",
                     modal:true,
                     // head:"Contact",
@@ -324,9 +326,11 @@
                     },
                     body:{
                         view:"form",  id:"contactForm", complexData:true,
-                        width: 500,
+                        width: 600,
+						autoheight:true,
                         elements:[
-                            { label:"Id", view:"text", name:"id", labelWidth: 150},
+                            { label:"Id", view:"text", name:"id", labelWidth: 150, css:"hidden"},
+                            { label:"Client", view:"text", name:"client.id", labelWidth: 150, css:"hidden"},
                             { label:"Civilité", view:"text", name:"civilite", labelWidth: 150},
                             { label:"Nom", view:"text", name:"nom", labelWidth: 150},
                             { label:"Prénom", view:"text", name:"prenom", labelWidth: 150},
@@ -338,7 +342,12 @@
                             { label:"Facturation", view:"checkbox", name:"facturation", labelWidth: 150},
                             { label:"Logistique", view:"checkbox", name:"logistique", labelWidth: 150},
                             { label:"Commercial", view:"checkbox", name:"commercial", labelWidth: 150},
-                            { label: "Enregistrer", view:"button", align: "right", click:"saveContactForm()"}
+                            {
+                                cols: [
+                                    {label: "Supprimer", view: "button", align: "right", click: "deleteContact()", css: "btn btn-secondary danger"},
+                                    {label: "Enregistrer", view: "button", align: "right", click: "saveContactForm()", css: "btn btn-secondary primary"}
+                                ]
+                            }
                         ]
                     }
                 });
@@ -595,7 +604,7 @@
                         document.location='client.html?client_id='+idClient;
                     }
                 });
-			}
+            }
 
             function deleteClient() {
                 webix.ajax().del("http://"+serverIP+":9090/textma/teClients/"+idClient, function(text, data, xhr){
@@ -603,9 +612,9 @@
                         messageAlert("Suppression", "La suppression du client est réussie!", function(){
                             document.location='te_client_list.html';
                         });
-					}
+                    }
                 });
-			}
+            }
 
             function createNewContact() {
                 $$('contactForm').clear();
@@ -614,17 +623,31 @@
 
             function saveContactForm() {
                 var contactFormValues = $$("contactForm").getValues();
+                if (contactFormValues.client.id == null || contactFormValues.client.id.length == 0) {
+                    contactFormValues.client.id = idClient;
+				}
                 webix.ajax().headers({
                     "Content-type": "application/json"
                 }).put("http://"+serverIP+":9090/textma/teContacts", contactFormValues, function(text, data, xhr){
                     messageAlert("Enregistrement", "L'enregistrement réussi!", function(){
-                        document.location='client.html?client_id='+idClient;
+                        gridContacts.clearAll();
+                        gridContacts.load("http://"+serverIP+":9090/textma/teContacts/client/" + idClient);
+                        contactFormWindow.hide();
                     });
                 });
                 contactFormWindow.hide();
             }
 
-
+            function deleteContact() {
+                webix.confirm("Suppression", "Etes-vous sûr de vouloir supprimer?", function(){
+                    var contactId = $$("contactForm").getValues().id;
+                    webix.ajax().del("http://"+serverIP+":9090/textma/teContacts/"+contactId, function(text, data, xhr){
+                        gridContacts.clearAll();
+                        gridContacts.load("http://"+serverIP+":9090/textma/teContacts/client/" + idClient);
+                        contactFormWindow.hide();
+                    });
+                });
+			}
 		</script>
 	</body>
 </html>
