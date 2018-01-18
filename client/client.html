@@ -129,7 +129,10 @@
 					<!--Onglet Adresses livraison-->
 					<div role="tabpanel" class="tab-pane fade" id="adresses_livraison">
                         <div id="gridLivraisons"></div>
-                        <div id="pagerLivraisons"></div>
+						<div class="row col-md-12">
+							<div class="col-md-10" id="pagerLivraisons"></div>
+							<button type="button" class="btn btn-secondary bg_primary col-md-1" onclick="createNewAdresseLivraison()"> Nouvelle adresse </button>
+						</div>
 					</div>
 
 					<!--Onglet Remise-->
@@ -305,7 +308,7 @@
                         onSelectChange: function () {
                             showContactForm(gridContacts.getSelectedId(true).join());
                         }
-					},
+                    },
                     url: "http://"+serverIP+":9090/textma/teContacts/client/" + idClient
                 });
 
@@ -385,7 +388,12 @@
                         size: 20,
                         group: 8
                     },
-                    url: "http://"+serverIP+":9090/textma/teAdresses/" + idClient
+                    on: {
+                        onSelectChange: function () {
+                            showLivraisonForm(gridLivraisons.getSelectedId(true).join());
+                        }
+                    },
+                    url: "http://"+serverIP+":9090/textma/teAdresses/client/" + idClient
                 });
 
                 livraisonFormWindow = webix.ui({
@@ -402,19 +410,20 @@
                         ]
                     },
                     body:{
-                        view:"form",  id:"contactForm", complexData:true,
+                        view:"form",  id:"livraisonForm", complexData:true,
                         width: 600,
                         autoheight:true,
                         elements:[
                             { label:"Id", view:"text", name:"id", labelWidth: 150, css:"hidden"},
-                            { label:"Société", view:"text", name:"nom", labelWidth: 150},
-                            { label:"Adresse", view:"text", name:"prenom", labelWidth: 150},
-                            { label:"Code postal", view:"richselect", options:"http://"+serverIP+":9090/textma/teFonctionContacts", name:"fonction.id", labelWidth: 150},
-                            { label:"Ville", view:"text", name:"email", labelWidth: 150},
+                            { label:"ClientId", view:"text", name:"clientId", labelWidth: 150, css:"hidden"},
+                            { label:"Société", view:"text", name:"nomSociete", labelWidth: 150},
+                            { label:"Adresse", view:"text", name:"adresse", labelWidth: 150},
+                            { label:"Code postal", view:"text", name:"codePostal", labelWidth: 150},
+                            { label:"Ville", view:"text", name:"ville", labelWidth: 150},
                             { label:"Téléphone", view:"text", name:"telephone", labelWidth: 150},
                             { label:"Fax", view:"text", name:"fax", labelWidth: 150},
-                            { label:"Email", view:"checkbox", name:"facturation", labelWidth: 150},
-                            { label:"Observations", view:"checkbox", name:"logistique", labelWidth: 150},
+                            { label:"Email", view:"text", name:"email", labelWidth: 150},
+                            { label:"Observations", view:"text", name:"observations", labelWidth: 150},
                             {
                                 cols: [
                                     {label: "Supprimer", view: "button", align: "right", click: "deleteAdresseLivraison()", css: "btn btn-secondary danger"},
@@ -425,6 +434,10 @@
                     }
                 });
 
+                function showLivraisonForm(idAdresse){
+                    $$("livraisonForm").load("http://"+serverIP+":9090/textma/teAdresses/"+idAdresse);
+                    livraisonFormWindow.show();
+                }
 
 				// Onglet Remise
                 formRemise = webix.ui({
@@ -662,7 +675,7 @@
                 var contactFormValues = $$("contactForm").getValues();
                 if (contactFormValues.client.id == null || contactFormValues.client.id.length == 0) {
                     contactFormValues.client.id = idClient;
-				}
+                }
                 webix.ajax().headers({
                     "Content-type": "application/json"
                 }).put("http://"+serverIP+":9090/textma/teContacts", contactFormValues, function(text, data, xhr){
@@ -684,7 +697,40 @@
                         contactFormWindow.hide();
                     });
                 });
-			}
+            }
+
+            function createNewAdresseLivraison() {
+                $$('livraisonForm').clear();
+                livraisonFormWindow.show();
+            }
+
+            function saveAdresseLivraison() {
+                var livraisonFormValues = $$("livraisonForm").getValues();
+                if (livraisonFormValues.clientId == null || livraisonFormValues.clientId.length == 0) {
+                    livraisonFormValues.clientId = idClient;
+                }
+                webix.ajax().headers({
+                    "Content-type": "application/json"
+                }).put("http://"+serverIP+":9090/textma/teAdresses", livraisonFormValues, function(text, data, xhr){
+                    messageAlert("Enregistrement", "L'enregistrement réussi!", function(){
+                        gridLivraisons.clearAll();
+                        gridLivraisons.load("http://"+serverIP+":9090/textma/teAdresses/client/" + idClient);
+                        livraisonFormWindow.hide();
+                    });
+                });
+                livraisonFormWindow.hide();
+            }
+
+            function deleteAdresseLivraison() {
+                webix.confirm("Suppression", "Etes-vous sûr de vouloir supprimer?", function(){
+                    var livraisonId = $$("livraisonForm").getValues().id;
+                    webix.ajax().del("http://"+serverIP+":9090/textma/teAdresses/"+livraisonId, function(text, data, xhr){
+                        gridLivraisons.clearAll();
+                        gridLivraisons.load("http://"+serverIP+":9090/textma/teAdresses/client/" + idClient);
+                        livraisonFormWindow.hide();
+                    });
+                });
+            }
 		</script>
 	</body>
 </html>
