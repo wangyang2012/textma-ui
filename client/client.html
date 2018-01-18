@@ -153,7 +153,7 @@
 
 					<!--Onglet Observations-->
 					<div role="tabpanel" class="tab-pane" id="observationsDiv">
-						<textarea name="observations" id="observations" class="col-md-8" style="min-height: 600px"></textarea>
+						<div id="observationsForm"></div>
 					</div>
 
 
@@ -209,8 +209,11 @@
                 webix.ui({
                     container: "clientFormDiv",
                     view:"htmlform",
-                    id:"clientForm"
+                    id:"clientForm",
+					url: "http://"+serverIP+":9090/textma/teClients/"+idClient
                 });
+
+                console.log($$('clientForm').getValues());
 
 				// Onglet Général
                 // Informations
@@ -475,6 +478,20 @@
                     },
                 });
 
+                // form observations
+				observationsForm = webix.ui({
+					container:"observationsForm",
+                    view:"form",  id:"observationsForm", complexData:true,
+                    width: 600,
+                    autoheight:true,
+					url: "http://"+serverIP+":9090/textma/teClients/"+idClient,
+                    elements:[
+                        { label:"Client", view:"text", name:"client.id", labelWidth: 150, css:"hidden"},
+                        { label:"Observations", view:"textarea", name:"observations", labelWidth: 150},
+                        {label: "Enregistrer", view: "button", align: "right", click: "saveObservations()", css: "btn btn-secondary primary"}
+                    ]
+				});
+
 
                 // Grid sous clients
                 gridSousClients = webix.ui({
@@ -529,7 +546,7 @@
                         {id: "codePostal", sort: "server", header: "CP", adjust: "data"},
                         {id: "ville", sort: "server", header: "Ville", adjust: "data"}
                     ],
-
+                    onContext:{},
                     url:"http://"+serverIP+":9090/textma/teClients/sous-client/" + idClient
                 });
 
@@ -558,10 +575,17 @@
                     },
                     on: {
                         onSelectChange: function () {
-//                            window.location.href = "client.html?client_id=" + gridAllClients.getSelectedId(true).join();
-//							call WS
-                            $('#listClientModal').modal('hide');
-//                            gridAllClients.reload;
+							// add sous client to client
+                            var sousClientId = gridAllClients.getSelectedId(true).join();
+                            webix.ajax().headers({
+                                "Content-type": "application/json"
+                            }).put("http://"+serverIP+":9090/textma/teClients/"+idClient+"/sous-client/"+sousClientId, function(text, data, xhr){
+                                messageAlert("Enregistrement", "L'enregistrement réussi!", function(){
+                                    gridSousClients.clearAll();
+                                    gridSousClients.load("http://"+serverIP+":9090/textma/teClients/sous-client/" + idClient);
+                                    $('#listClientModal').modal('hide');
+                                });
+                            });
                         }
                     },
                     url: "http://"+serverIP+":9090/textma/teClients"
@@ -612,6 +636,24 @@
                     width: 250,
                     group:8
                 });
+
+                webix.ui({
+                    view:"contextmenu",
+                    id:"cmenu",
+                    data:["Supprimer"],
+                    on:{
+                        onItemClick:function(id){
+                            var idSousClientToSupprimer = this.getContext().id.row;
+                            webix.ajax().del("http://"+serverIP+":9090/textma/teClients/"+idClient+"/sous-client/"+idSousClientToSupprimer, function(text, data, xhr){
+                                if (text == "ok") {
+                                    gridSousClients.clearAll();
+                                    gridSousClients.load("http://"+serverIP+":9090/textma/teClients/sous-client/" + idClient);
+                                }
+                            });
+                        }
+                    }
+                });
+                $$("cmenu").attachTo(gridSousClients);
 			});
 
 			function filterTree(value) {
@@ -731,6 +773,15 @@
                     });
                 });
             }
+
+            function saveObservations() {
+                var observations = $$("observationsForm").getValues().observations;
+                webix.ajax().headers({
+                    "Content-type": "application/json"
+                }).put("http://"+serverIP+":9090/textma/teClients/"+idClient+"/observations", observations, function(text, data, xhr){
+                    messageAlert("Enregistrement", "L'enregistrement réussi!");
+                });
+			}
 		</script>
 	</body>
 </html>
