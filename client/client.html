@@ -388,6 +388,43 @@
                     url: "http://"+serverIP+":9090/textma/teAdresses/" + idClient
                 });
 
+                livraisonFormWindow = webix.ui({
+                    view:"window",
+                    id:"livraisonFormWindow",
+                    width:600,
+                    autoheight:true,
+                    position:"center",
+                    modal:true,
+                    head:{
+                        view:"toolbar", cols:[
+                            {view:"label", label: "Adresses de livraison" },
+                            { view:"button", label: 'Fermer', width: 100, align: 'right', click:"$$('livraisonFormWindow').hide();"}
+                        ]
+                    },
+                    body:{
+                        view:"form",  id:"contactForm", complexData:true,
+                        width: 600,
+                        autoheight:true,
+                        elements:[
+                            { label:"Id", view:"text", name:"id", labelWidth: 150, css:"hidden"},
+                            { label:"Société", view:"text", name:"nom", labelWidth: 150},
+                            { label:"Adresse", view:"text", name:"prenom", labelWidth: 150},
+                            { label:"Code postal", view:"richselect", options:"http://"+serverIP+":9090/textma/teFonctionContacts", name:"fonction.id", labelWidth: 150},
+                            { label:"Ville", view:"text", name:"email", labelWidth: 150},
+                            { label:"Téléphone", view:"text", name:"telephone", labelWidth: 150},
+                            { label:"Fax", view:"text", name:"fax", labelWidth: 150},
+                            { label:"Email", view:"checkbox", name:"facturation", labelWidth: 150},
+                            { label:"Observations", view:"checkbox", name:"logistique", labelWidth: 150},
+                            {
+                                cols: [
+                                    {label: "Supprimer", view: "button", align: "right", click: "deleteAdresseLivraison()", css: "btn btn-secondary danger"},
+                                    {label: "Enregistrer", view: "button", align: "right", click: "saveAdresseLivraison()", css: "btn btn-secondary primary"}
+                                ]
+                            }
+                        ]
+                    }
+                });
+
 
 				// Onglet Remise
                 formRemise = webix.ui({
