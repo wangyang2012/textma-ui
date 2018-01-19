@@ -30,8 +30,8 @@
 </div>
 
 <div class="row">
-    <div id="gridFamilleClient" class="col-md-8" style='width:100%; height:50%;'></div>
-    <div id="formFamilleClientDiv" class="col-md-4" style='width:100%; height:50%;'></div>
+    <div id="gridFamilleClient"></div>
+    <div id="formFamilleClientDiv" class="ml-2 mt-2 card"></div>
 </div>
 <div id="pagingFamilleClient"></div>
 <script type="text/javascript" charset="utf-8">
@@ -65,13 +65,14 @@
             view:"form",
             minWidth: "400",
             elements:[
-                { label:"Id", view:"text", name:"id", labelWidth: 150, css:"hidden"},
+                { label:"Id", view:"text", name:"id", labelWidth: 150, css:"hidden", readonly: true},
                 { label:"Nom", view:"text", name:"nom", labelWidth: 150},
-                { label:"Nombre de client", view:"text", name:"nbClients", labelWidth: 150},
+                { label:"Nombre de client", view:"text", name:"nbClients", labelWidth: 150, readonly: true},
                 {
                     cols: [
-                        {label: "Supprimer", view: "button", click: "deleteFamilleClient()", css: "btn btn-secondary danger"},
-                        {label: "Enregistrer", view: "button", click: "saveFamilleClient()", css: "btn btn-secondary primary"}
+                        {label: "Nouveau", view: "button", width:80, click: "createFamilleClient()", css: "btn btn-secondary"},
+                        {label: "Supprimer", view: "button", width:80, click: "deleteFamilleClient()", css: "btn btn-secondary"},
+                        {label: "Enregistrer", view: "button", width:80, click: "saveFamilleClient()", css: "btn btn-secondary"}
                     ]
                 }
             ],
@@ -163,6 +164,10 @@
             }
         }
     });
+
+    function createFamilleClient() {
+        $$("familleClientForm").clear();
+    }
 
     function saveFamilleClient () {
         var familleClient = $$("familleClientForm").getValues();
