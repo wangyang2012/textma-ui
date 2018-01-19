@@ -444,16 +444,29 @@
 
 				// Onglet Remise
                 formRemise = webix.ui({
+					id:"remiseForm",
                     container:"formRemiseDiv",
                     complexData:true,
                     view:"form",
                     minWidth: "400",
                     elements:[
-                        { label:"Libellé", view:"text", name:"libelle" },
-                        { label:"Remise(%)", view:"text", name:"remise"},
-                        { label:"Remise(€)", view:"text", name:"prix"},
-                        { label:"Rotation(%)", view:"text", name:"rotationPourcentage"},
-                        { label:"Rotation(€)", view:"text", name:"reotationPrix"}
+                        { label:"Id", view:"text", name:"id", labelWidth: 150, css:"hidden"},
+                        { label:"clientId", view:"text", name:"clientId", labelWidth: 150, css:"hidden"},
+                        { label:"familleArticleId", view:"text", name:"familleArticleId", labelWidth: 150, css:"hidden"},
+                        { label:"collectionArticleId", view:"text", name:"collectionArticleId", labelWidth: 150, css:"hidden"},
+                        { label:"gammeArticleId", view:"text", name:"gammeArticleId", labelWidth: 150, css:"hidden"},
+                        { label:"articleId", view:"text", name:"articleId", labelWidth: 150, css:"hidden"},
+                        // { label:"Libellé", view:"text", name:"libelle", labelWidth: 150 },
+                        { label:"Remise(%)", view:"text", name:"remise", labelWidth: 150},
+                        { label:"Remise(€)", view:"text", name:"prix", labelWidth: 150},
+                        { label:"Rotation(%)", view:"text", name:"rotationPourcentage", labelWidth: 150},
+                        { label:"Rotation(€)", view:"text", name:"rotationPrix", labelWidth: 150},
+                        {
+                            cols: [
+                                {label: "Supprimer", view: "button", click: "deleteRemise()", css: "btn btn-secondary danger"},
+                                {label: "Enregistrer", view: "button", click: "saveRemise()", css: "btn btn-secondary primary"}
+                            ]
+                        }
                     ],
                 });
 
@@ -472,7 +485,6 @@
                     on: {
                         onAfterSelect: function (id) {
                             url = "http://"+serverIP+":9090/textma/remise/"+idClient+"/"+id;
-                            console.log(url);
                             formRemise.load(url);
 						}
                     },
@@ -782,6 +794,34 @@
                     messageAlert("Enregistrement", "L'enregistrement réussi!");
                 });
 			}
+
+			function saveRemise() {
+                var remise = $$("remiseForm").getValues();
+                webix.ajax().headers({
+                    "Content-type": "application/json"
+                }).put("http://"+serverIP+":9090/textma/remise", remise, function(text, data, xhr){
+                    messageAlert("Enregistrement", "L'enregistrement réussi!", function(text, data, xhr) {
+                        treeRemise.clearAll();
+                        formRemise.clear();
+                        treeRemise.load("http://"+serverIP+":9090/textma/remise/"+idClient);
+					});
+
+                });
+			}
+
+            function deleteRemise() {
+                var remiseId = $$("remiseForm").getValues().id;
+                webix.ajax().headers({
+                    "Content-type": "application/json"
+                }).del("http://"+serverIP+":9090/textma/remise/"+remiseId, function(text, data, xhr){
+                    messageAlert("Enregistrement", "L'enregistrement réussi!", function(text, data, xhr) {
+                        treeRemise.clearAll();
+                        formRemise.clear();
+                        treeRemise.load("http://"+serverIP+":9090/textma/remise/"+idClient);
+                    });
+
+                });
+            }
 		</script>
 	</body>
 </html>
