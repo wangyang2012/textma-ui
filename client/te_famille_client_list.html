@@ -29,7 +29,10 @@
     </div>
 </div>
 
-<div id="gridFamilleClient" class="col-md-12" style='width:100%; height:50%;'></div>
+<div class="row">
+    <div id="gridFamilleClient" class="col-md-8" style='width:100%; height:50%;'></div>
+    <div id="formFamilleClientDiv" class="col-md-4" style='width:100%; height:50%;'></div>
+</div>
 <div id="pagingFamilleClient"></div>
 <script type="text/javascript" charset="utf-8">
     function togglePagination() {
@@ -55,6 +58,25 @@
 
     webix.ready(function () {
 
+        formFamilleClient = webix.ui({
+            id:"familleClientForm",
+            container:"formFamilleClientDiv",
+            complexData:true,
+            view:"form",
+            minWidth: "400",
+            elements:[
+                { label:"Id", view:"text", name:"id", labelWidth: 150, css:"hidden"},
+                { label:"Nom", view:"text", name:"nom", labelWidth: 150},
+                { label:"Nombre de client", view:"text", name:"nbClients", labelWidth: 150},
+                {
+                    cols: [
+                        {label: "Supprimer", view: "button", click: "deleteFamilleClient()", css: "btn btn-secondary danger"},
+                        {label: "Enregistrer", view: "button", click: "saveFamilleClient()", css: "btn btn-secondary primary"}
+                    ]
+                }
+            ],
+        });
+
         gridFamilleClient = webix.ui({
             container: "gridFamilleClient",
             view: "datatable",
@@ -65,7 +87,8 @@
             dragColumn: true,
             columns: [
                 {id: "id", sort: "server", header: "ID", adjust: "head"},
-                {id: "nom", sort: "server", header: "Nom", adjust: "data"}
+                {id: "nom", sort: "server", header: "Nom", adjust: "data"},
+                {id: "nbClients", header: "Nombre de clients", adjust: "head"}
             ],
             autoConfig: true,
             pager: {
@@ -75,8 +98,9 @@
                 group: 8
             },
             on: {
-                onSelectChange: function () {
-                    var text = "Selected: " + gridFamilleClient.getSelectedId(true).join();
+                onAfterSelect: function (id) {
+                    url = "http://"+serverIP+":9090/textma/teFamilleClients/"+id;
+                    formFamilleClient.load(url);
                 }
             },
 
@@ -139,6 +163,38 @@
             }
         }
     });
+
+    function saveFamilleClient () {
+        var familleClient = $$("familleClientForm").getValues();
+        webix.ajax().headers({
+            "Content-type": "application/json"
+        }).put("http://"+serverIP+":9090/textma/teFamilleClients", familleClient, function(text, data, xhr){
+            messageAlert("Enregistrement", "L'enregistrement réussi!", function(text, data, xhr) {
+                gridFamilleClient.clearAll();
+                gridFamilleClient.load("http://"+serverIP+":9090/textma/teFamilleClients?search=" + document.getElementById("myfilter").value);
+                formFamilleClient.clear();
+            });
+        });
+    }
+
+    function deleteFamilleClient () {
+        var nbClients = $$("familleClientForm").getValues().nbClients;
+        if (nbClients > 0) {
+            messageAlert("Suppression", "Impossible de supprimer, car il y a " + nbClients + " clients sous cette famille.");
+            return;
+        }
+
+        var familleClientId = $$("familleClientForm").getValues().id;
+        webix.ajax().headers({
+            "Content-type": "application/json"
+        }).del("http://"+serverIP+":9090/textma/teFamilleClients/"+familleClientId, function(text, data, xhr){
+            messageAlert("Suppression", "La famille est supprimée!", function(text, data, xhr) {
+                gridFamilleClient.clearAll();
+                gridFamilleClient.load("http://"+serverIP+":9090/textma/teFamilleClients?search=" + document.getElementById("myfilter").value);
+                formFamilleClient.clear();
+            });
+        });
+    }
 
 </script>
 </body>
