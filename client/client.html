@@ -168,6 +168,7 @@
 
 					<!--Onglet Statistiques-->
 					<div role="tabpanel" class="tab-pane" id="statistiques">
+						<h5>Factures de cette années</h5>
                         <div id="pageSelecterFactures"></div>
                         <div id="gridFactures"></div>
                         <div id="pagerFactures"></div>
@@ -608,8 +609,8 @@
                     container:"gridFactures",
                     view:"datatable",
                     select:"row",
-                    autowidth:true,
-                    height: (window.innerHeight * 0.7),
+                    autoWidth: true,
+                    height: (window.innerHeight * 0.8),
                     datafetch:20,
                     autoConfig:true,
                     editable:true,
